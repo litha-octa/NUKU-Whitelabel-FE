@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "nuku",
+    "slug": "nuku",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "nuku"
+}
