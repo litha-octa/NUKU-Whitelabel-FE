@@ -21,7 +21,7 @@ const Auth = ({navigation}) =>{
                resizeMode: "contain",
                width: "90%",
                height: 240,
-               marginTop: "15%",
+               marginTop: "20%",
              }}
              autoplay
              circleLoop

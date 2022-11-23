@@ -24,7 +24,7 @@ import CheckBox from '@react-native-community/checkbox'
           <View style={s.header}>
             <TouchableOpacity
               style={{ width: "15%" }}
-              onPress={() => navigation.goBack()}
+              onPress={() => navigation.navigate('Auth')}
             >
               <Image source={LeftArrowTail} style={s.iconHeader} />
             </TouchableOpacity>
@@ -127,11 +127,11 @@ const s = StyleSheet.create({
   },
   body: {
     width: "100%",
-    height: "90%",
+    height: "80%",
     backgroundColor: colors.WHITE,
     paddingHorizontal: "3%",
     paddingTop: 10,
-    marginBottom:50,
+    paddingBottom:60,
 
   },
   title: {

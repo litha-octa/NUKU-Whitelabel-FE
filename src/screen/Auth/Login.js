@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {View, Text, Image, TouchableOpacity, TextInput, StyleSheet} from 'react-native'
+import {View, Text, Image, TouchableOpacity, TextInput, StyleSheet, ScrollView} from 'react-native'
 import {
   LeftArrowTail,
   LogoAuth,
@@ -16,61 +16,64 @@ import colors from '../../assets/colors'
     const desc= 'selamat datang kembali pengguna tercinta, silahkan isi nomor handphone yang sudah terdaftar di bawah sini'
     return (
       <View>
-        <View style={s.header}>
-          <TouchableOpacity
-            style={{ width: "15%" }}
-            onPress={() => navigation.goBack()}
-          >
-            <Image source={LeftArrowTail} style={s.iconHeader} />
-          </TouchableOpacity>
-          <View style={s.midleHeader}></View>
-          <View style={{ width: "25%" }}>
-            <Image source={LogoAuth} style={s.logoHeader} />
-          </View>
-        </View>
-        <View style={s.body}>
-          <Text style={s.title}>Masuk</Text>
-          <Text style={s.desc}>{desc}</Text>
-          <Text style={s.inputTitle}>Nomor Handphone</Text>
-          <View style={s.input}>
-            <TextInput placeholder="Contoh : 081234567890" />
-          </View>
-          <Text style={s.inputTitle}>Password</Text>
-          <View style={s.input}>
-            <TextInput
-              placeholder="Masukkan Password yang Sudah dibuat"
-              secureTextEntry={showPass == false ? true : false}
-            />
-          </View>
-          <TouchableOpacity
-            style={s.btn}
-            onPress={() => navigation.navigate("MainApp")}
-          >
-            <Text style={s.btnText}>Masuk</Text>
-          </TouchableOpacity>
-          <View style={s.bottomContainer}>
-            <Text style={s.titleContainer}>Metode Lain</Text>
-            <View style={s.underline}>
-              <Text style={s.descContainer}>
-                masuk melalui metode lainnya, klik salah satu di bawah ini
-              </Text>
-            </View>
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                width: "100%",
-                paddingHorizontal: "25%",
-                justifyContent: "space-between",
-                marginTop: 15,
-              }}
+        <ScrollView>
+          <View style={s.header}>
+            <TouchableOpacity
+              style={{ width: "15%" }}
+              onPress={() => navigation.navigate('Auth')}
             >
-              <Image source={ByEmailIcon} style={s.loginMethod} />
-              <Image source={ByGoogleIcon} style={s.loginMethod} />
-              <Image source={ByFBIcon} style={s.loginMethod} />
+              <Image source={LeftArrowTail} style={s.iconHeader} />
+            </TouchableOpacity>
+            <View style={s.midleHeader}></View>
+            <View style={{ width: "25%" }}>
+              <Image source={LogoAuth} style={s.logoHeader} />
             </View>
           </View>
-        </View>
+          <View style={s.body}>
+            <Text style={s.title}>Masuk</Text>
+            <Text style={s.desc}>{desc}</Text>
+            <Text style={s.inputTitle}>Nomor Handphone</Text>
+            <View style={s.input}>
+              <TextInput placeholder="Contoh : 081234567890" />
+            </View>
+            <Text style={s.inputTitle}>Password</Text>
+            <View style={s.input}>
+              <TextInput
+                placeholder="Masukkan Password yang Sudah dibuat"
+                secureTextEntry={showPass == false ? true : false}
+              />
+            </View>
+            <TouchableOpacity
+              style={s.btn}
+              onPress={() => navigation.navigate("MainApp")}
+            >
+              <Text style={s.btnText}>Masuk</Text>
+            </TouchableOpacity>
+            <View style={s.bottomContainer}>
+              <Text style={s.titleContainer}>Metode Lain</Text>
+              <View style={s.underline}>
+                <Text style={s.descContainer}>
+                  masuk melalui metode lainnya, klik salah satu di bawah ini
+                </Text>
+              </View>
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  width: "100%",
+                  paddingHorizontal: "25%",
+                  justifyContent: "space-between",
+                  marginTop: 15,
+                }}
+              >
+                <Image source={ByEmailIcon} style={s.loginMethod} />
+                <Image source={ByGoogleIcon} style={s.loginMethod} />
+                <Image source={ByFBIcon} style={s.loginMethod} />
+              </View>
+            </View>
+            
+          </View>
+        </ScrollView>
         <View style={s.fixedBottom}>
           <Text style={s.bottomText}>Belum Punya Akun ? </Text>
           <TouchableOpacity onPress={() => navigation.navigate("Register")}>
@@ -105,11 +108,11 @@ const s = StyleSheet.create({
   },
   body: {
     width: "100%",
-    height: "80%",
+    height:'100%',
     backgroundColor: colors.WHITE,
     paddingHorizontal: "3%",
     paddingTop: 10,
-    marginBottom:50,
+    paddingBottom:110,
   },
   title: {
     fontFamily: "roboto",
@@ -188,7 +191,8 @@ const s = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     width: "100%",
-    justifyContent:'center'
+    justifyContent: "center",
+    backgroundColor: colors.WHITE,
   },
   bottomText: {
     fontFamily: "roboto",
