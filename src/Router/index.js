@@ -26,6 +26,7 @@ import {
   Login,
   Register,
   Auth,
+  OTP,
 } from "../screen";
 
 import {
@@ -198,11 +199,11 @@ const LoginRoute =({navigation})=>{
         component={Register}
         options={{ headerShown: false }}
       />
-      {/* <Stack.Screen
+      <Stack.Screen
         name="OTP"
         component={OTP}
         options={{ headerShown: false }}
-      /> */}
+      />
     </Stack.Navigator>
   );
 }

@@ -37,13 +37,14 @@ if(!token){
 },[])
  const storeData = async () => {
         try {
-          await AsyncStorage.setItem("token", token);
+          const data = await AsyncStorage.setItem("token", token);
+          console.log(data)
         } catch (e) {
          console.log(e)
       }
   };
     const loginHandler = () =>{
-if(!email && !phone || !password){
+if(!email || !password){
   Alert.alert('oops!', 'Lengkapi Email dan Password')
 }else{         axios({
            method: "POST",
@@ -120,8 +121,8 @@ if(!email && !phone || !password){
                 }
               />
             </View>
-            <Text style={s.inputTitle}>Password</Text>
-            <View style={s.input}>
+            <Text style={byEmail ? s.inputTitle: {display:'none'}}>Password</Text>
+            <View style={byEmail ? s.input : {display:'none'}}>
               <TextInput
                 placeholder="Masukkan Password yang Sudah dibuat"
                 secureTextEntry={showPass == false ? true : false}
@@ -140,7 +141,7 @@ if(!email && !phone || !password){
                 />
               </TouchableOpacity>
             </View>
-            <TouchableOpacity style={s.btn} onPress={() => loginHandler()}>
+            <TouchableOpacity style={s.btn} onPress={() =>{byEmail? loginHandler() : navigation.navigate('OTP')} }>
               <Text style={s.btnText}>Masuk</Text>
             </TouchableOpacity>
             <View style={s.bottomContainer}>

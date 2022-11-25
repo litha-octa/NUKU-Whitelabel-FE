@@ -30,7 +30,7 @@ import PaymentMethod from './TopUp/PaymentMethod'
   import Auth from './Auth';
     import Login  from './Auth/Login';
     import Register from './Auth/Register';
-    // import OTP from './Auth/OTP';
+    import OTP from './Auth/OTP';
 
 
 export {
@@ -62,4 +62,5 @@ export {
     Login,
     Auth,
     Register,
+    OTP,
 };
