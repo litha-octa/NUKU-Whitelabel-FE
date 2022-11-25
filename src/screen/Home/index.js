@@ -23,7 +23,9 @@ import {
 import colors from "../../assets/colors";
 import {SaldoInfo, Kategori, Assistant, AssistantModal } from "../../component";
 
-const Home = ({navigation}) => {
+const Home = ({navigation, route}) => {
+  // const {token} = route.params
+  // console.log(token)
   const locationName = "Kantor Nifarro Park";
   const storeList = [
     { name: "Zarara Official" },

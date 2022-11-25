@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {View, Text, Image, TouchableOpacity, TextInput, StyleSheet, ScrollView, KeyboardAvoidingView} from 'react-native'
+import {View, Text, Image, TouchableOpacity, TextInput, StyleSheet, ScrollView, KeyboardAvoidingView, Alert} from 'react-native'
 import {
   LeftArrowTail,
   LogoAuth,
@@ -11,20 +11,95 @@ import {
 } from "../../assets";
 import colors from '../../assets/colors'
 import CheckBox from '@react-native-community/checkbox'
+import { BASE_URL } from "../../host";
+import {AssistantModal} from '../../component/AssistantModal'
 
   const  Register = ({navigation})=>{
     const [showPass, setShowPass] = useState(false)
     const [showPass2, setShowPass2] = useState(false);
     const [ok,setOk] = useState(false)
 
+    const [fullname, setFullname] = useState()
+    const [phone, setPhone] = useState()
+    const [email, setEmail] = useState();
+    const [pass, setPass] = useState();
+    const [confirmPass, setConfirmPass] = useState();
+
     const desc= 'silahkan isi data dibawah ini dengan lengkap, dan jangan sampai terlewat ya'
+    const submit = () => {
+      if(!fullname || !phone || !email || !pass || !confirmPass) {
+        Alert.alert(
+          "Opps ! ",
+          "Untuk Mendaftar, Kamu Harus Melengkapi Semua Data Yang Diperlukan",
+          [
+            {
+              text: "Ok",
+            },
+          ],
+          {
+            cancelable: true,
+          }
+        );
+        return;
+        
+      }else if(pass.length < 7){
+        Alert.alert(
+          "Opps ! ",
+          "Password Minimal Berisi 8 Digit",
+          [
+            {
+              text: "Ok",
+            },
+          ],
+          {
+            cancelable: true,
+          }
+        );
+      }
+      else if (pass !== confirmPass) {
+        Alert.alert(
+          "Opps ! ",
+          "Password Tidak Cocok",
+          [
+            {
+              text: "Ok",
+            },
+          ],
+          {
+            cancelable: true,
+          }
+        );
+        return;
+      } else if (ok !== true) {
+        Alert.alert(
+          "Opps ! ",
+          "Harap Setujui Kebijakan Syarat dan Ketentuan",
+          [
+            {
+              text: "Ok",
+            },
+          ],
+          {
+            cancelable: true,
+          }
+        );
+        return;
+      } else {
+        Alert.alert("Pendaftaran Berhasil !", "Kembali Ke Halaman Login", [
+          {
+            text: "Ok",
+            onPress: () => navigation.navigate('Login')
+          },
+        ]);
+      }
+    }
     return (
       <View>
         <ScrollView>
           <View style={s.header}>
             <TouchableOpacity
               style={{ width: "15%" }}
-              onPress={() => navigation.navigate('Auth')}
+              onPress={() => navigation.navigate("Auth")}
             >
               <Image source={LeftArrowTail} style={s.iconHeader} />
             </TouchableOpacity>
@@ -39,17 +114,36 @@ import CheckBox from '@react-native-community/checkbox'
               <Text style={s.desc}>{desc}</Text>
               <Text style={s.inputTitle}>Nama Lengkap</Text>
               <View style={s.input}>
-                <TextInput placeholder="Contoh : Syahrul Ramdan" />
+                <TextInput
+                  placeholder="Contoh : Syahrul Ramdan"
+                  value={fullname}
+                  onChangeText={(text) => setFullname(text)}
+                />
               </View>
               <Text style={s.inputTitle}>Nomor Handphone</Text>
               <View style={s.input}>
-                <TextInput placeholder="Contoh : 081234567890" />
+                <TextInput
+                  placeholder="Contoh : 081234567890"
+                  value={phone}
+                  onChangeText={(text) => setPhone(text)}
+                  keyboardType="numeric"
+                />
+              </View>
+              <Text style={s.inputTitle}>Email</Text>
+              <View style={s.input}>
+                <TextInput
+                  placeholder="Contoh : syahrul123@gmail.com"
+                  value={email}
+                  onChangeText={(text)=>setEmail(text)}
+                />
               </View>
               <Text style={s.inputTitle}>Password</Text>
               <View style={s.input}>
                 <TextInput
                   placeholder="Yang Gampang Diingat ya"
                   secureTextEntry={showPass == false ? true : false}
+                  value={pass}
+                  onChangeText={(text)=>setPass(text)}
                 />
               </View>
 
@@ -58,12 +152,14 @@ import CheckBox from '@react-native-community/checkbox'
                 <TextInput
                   placeholder="Ulangi yang sudah dibikin"
                   secureTextEntry={showPass2 == false ? true : false}
+                  value={confirmPass}
+                  onChangeText={(text)=>setConfirmPass(text)}
                 />
               </View>
             </KeyboardAvoidingView>
             <View
               style={{
-                display: "flex",
+                display: "flex", 
                 flexDirection: "row",
                 width: "100%",
                 marginBottom: 60,
@@ -87,7 +183,7 @@ import CheckBox from '@react-native-community/checkbox'
             </View>
             <TouchableOpacity
               style={s.btn}
-              onPress={() => navigation.navigate("MainApp")}
+              onPress={()=>submit()}
             >
               <Text style={s.btnText}>Daftar </Text>
             </TouchableOpacity>
@@ -151,7 +247,6 @@ const s = StyleSheet.create({
     height: 50,
     borderRadius: 10,
     paddingHorizontal: 10,
-    paddingTop: 10,
     marginBottom: 20,
     display: "flex",
     flexDirection: "row",

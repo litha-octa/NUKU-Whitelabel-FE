@@ -1,26 +1,95 @@
-import React, {useState} from "react";
-import {View, Text, Image, TouchableOpacity, TextInput, StyleSheet, ScrollView} from 'react-native'
+import React, {useEffect, useState} from "react";
+import {View, Text, Image, TouchableOpacity, TextInput, StyleSheet, ScrollView, Alert} from 'react-native'
 import {
   LeftArrowTail,
   LogoAuth,
   ByEmailIcon,
   ByFBIcon,
   ByGoogleIcon,
+  ByPhoneIcon,
   ShowOff,
   ShowOn,
+
 } from "../../assets";
 import colors from '../../assets/colors'
+import axios from 'axios'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { BASE_URL } from "../../host";
 
-  const  Login =({navigation})=>{
+
+
+
+  const  Login =({navigation, route})=>{
+    const [token, setToken]= useState()
+    const [byEmail, setByEmail] = useState(false)
     const [showPass, setShowPass] = useState(false)
+    const [email,setEmail] = useState()
+    const [phone,setPhone] = useState()
+    const [password, setPassword] = useState()
     const desc= 'selamat datang kembali pengguna tercinta, silahkan isi nomor handphone yang sudah terdaftar di bawah sini'
+
+  useEffect(()=>{
+if(!token){
+  return;
+}else{
+   storeData();
+}
+},[])
+ const storeData = async () => {
+        try {
+          await AsyncStorage.setItem("token", token);
+        } catch (e) {
+         console.log(e)
+      }
+  };
+    const loginHandler = () =>{
+if(!email && !phone || !password){
+  Alert.alert('oops!', 'Lengkapi Email dan Password')
+}else{         axios({
+           method: "POST",
+           url: `${BASE_URL}/api/v1/user/login`,
+           headers: {
+             "Access-Control-Allow-Origin": "*",
+           },
+           data: {
+             emailOrPhone: phone ? phone : email,
+             password: password,
+           },
+         })
+           .then((res) => {
+             if (
+               !res.data.data.token ||
+               res.data.status !== 200 ||
+               res.data.message !== "success"
+             ) {
+               alert("LOGIN FAILED");
+             } else {
+              console.log('login berhasil')
+              setToken(res.data.data.token);
+           }
+          })
+           .catch((err) => {
+          //    console.log(err);
+              if (
+                err.toString() ===
+                "AxiosError: Request failed with status code 401"
+              ){
+                Alert.alert("Opps!", "Email atau Password Salah");
+              }else if(err.toString() ===
+                "AxiosError: Request failed with status code 500"){
+                  Alert.alert('Opps!', 'Ada Masalah Dengan Server Kami')
+                }
+           });
+    }
+  }
+    
     return (
       <View>
         <ScrollView>
           <View style={s.header}>
             <TouchableOpacity
               style={{ width: "15%" }}
-              onPress={() => navigation.navigate('Auth')}
+              onPress={() => navigation.navigate("Auth")}
             >
               <Image source={LeftArrowTail} style={s.iconHeader} />
             </TouchableOpacity>
@@ -31,22 +100,47 @@ import colors from '../../assets/colors'
           </View>
           <View style={s.body}>
             <Text style={s.title}>Masuk</Text>
+            <Text style={s.desc}>{byEmail ? "Dengan Email" : ""}</Text>
             <Text style={s.desc}>{desc}</Text>
-            <Text style={s.inputTitle}>Nomor Handphone</Text>
+            <Text style={s.inputTitle}>
+              {byEmail ? "Email" : "Nomor Handphone"}
+            </Text>
             <View style={s.input}>
-              <TextInput placeholder="Contoh : 081234567890" />
+              <TextInput
+                value={byEmail ? email : phone}
+                autoCapitalize="none"
+                onChangeText={
+                  byEmail ? (text) => setEmail(text) : (text) => setPhone(text)
+                }
+                keyboardType={byEmail ? "email-address" : "numeric"}
+                placeholder={
+                  byEmail
+                    ? "contoh : Syahrul123@gmail.com"
+                    : "Contoh : 081234567890"
+                }
+              />
             </View>
             <Text style={s.inputTitle}>Password</Text>
             <View style={s.input}>
               <TextInput
                 placeholder="Masukkan Password yang Sudah dibuat"
                 secureTextEntry={showPass == false ? true : false}
+                style={{ width: "90%" }}
+                value={password}
+                autoCapitalize="none"
+                onChangeText={(text) => setPassword(text)}
               />
+              <TouchableOpacity
+                onPress={() => setShowPass(!showPass)}
+                style={{ width: "10%" }}
+              >
+                <Image
+                  source={showPass ? ShowOff: ShowOn }
+                  style={{ width: 30, height: 30, marginVertical: 10 }}
+                />
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity
-              style={s.btn}
-              onPress={() => navigation.navigate("MainApp")}
-            >
+            <TouchableOpacity style={s.btn} onPress={() => loginHandler()}>
               <Text style={s.btnText}>Masuk</Text>
             </TouchableOpacity>
             <View style={s.bottomContainer}>
@@ -66,12 +160,20 @@ import colors from '../../assets/colors'
                   marginTop: 15,
                 }}
               >
-                <Image source={ByEmailIcon} style={s.loginMethod} />
-                <Image source={ByGoogleIcon} style={s.loginMethod} />
-                <Image source={ByFBIcon} style={s.loginMethod} />
+                <TouchableOpacity onPress={() => {setByEmail(!byEmail); setPassword('')}}>
+                  <Image
+                    source={byEmail ? ByPhoneIcon : ByEmailIcon}
+                    style={s.loginMethod}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity>
+                  <Image source={ByGoogleIcon} style={s.loginMethod} />
+                </TouchableOpacity>
+                <TouchableOpacity>
+                  <Image source={ByFBIcon} style={s.loginMethod} />
+                </TouchableOpacity>
               </View>
             </View>
-            
           </View>
         </ScrollView>
         <View style={s.fixedBottom}>
@@ -131,7 +233,6 @@ const s = StyleSheet.create({
     height: 50,
     borderRadius: 10,
     paddingHorizontal: 10,
-    paddingTop: 10,
     marginBottom: 20,
     display: "flex",
     flexDirection: "row",

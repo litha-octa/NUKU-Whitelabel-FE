@@ -201,12 +201,13 @@ import LogoAuth from './logoAuth.png';
 
 //SHOW PASSWORD
 import ShowOn from "./show/showOn.png";
-// import ShowOff from "./show/showOff.png";
+import ShowOff from "./show/showOff.png";
 
 //LOGIN METHOD
 import ByEmailIcon from "./loginBy/email.png";
 import ByFBIcon from './loginBy/fb.png'
 import ByGoogleIcon from "./loginBy/google.png";
+import ByPhoneIcon from './loginBy/nohp.png';
 
 
 export {
@@ -259,7 +260,7 @@ export {
   AnterinIcon,
   CallCenterIcon,
   KiriminIcon,
-DeliveryIcon,
+  DeliveryIcon,
 
   //PEMBAYARAN METHOD
   BtnScanQRIS,
@@ -311,7 +312,6 @@ DeliveryIcon,
   PengaturanIcon,
   FAQ,
   WatermarkBottom,
-  
 
   //ASSISTANT MODAL
   AssistantModalImg,
@@ -336,77 +336,82 @@ DeliveryIcon,
   Saldo499On,
   Saldo499Off,
 
-//ICON TIKET CENTER
-HotelTiketIcon,
-EventTiketIcon,
-WisataTiketIcon,
+  //ICON TIKET CENTER
+  HotelTiketIcon,
+  EventTiketIcon,
+  WisataTiketIcon,
 
-//ARROW
-ArrowGreyIcon,
-ArrowRedIcon,
-ArrowWhiteIcon,
+  //ARROW
+  ArrowGreyIcon,
+  ArrowRedIcon,
+  ArrowWhiteIcon,
 
-// PAYMENT METHOD
-AlfamartBlankIcon,
-AlfamartDefaultIcon,
-AlfamidiBlankIcon,
-AlfamidiDefaultIcon,
-ATMBlankIcon,
-ATMDefaultIcon,
-DebitBlankIcon,
-DebitDefaultIcon,
-IndomaretBlankIcon,
-IndomaretDefaultIcon,
-MBankingBlankIcon,
-MBankingDefaultIcon,
-MinimarketBlankIcon,
-MinimarketDefaultIcon,
-QrisBlankIcon,
-QrisDefaultIcon,
-SaldoBlankIcon,
-SaldoDefaultIcon,
-TunaiBlankIcon,
-TunaiDefaultIcon,
-VAccBlankIcon,
-VAccDefaultIcon,
+  // PAYMENT METHOD
+  AlfamartBlankIcon,
+  AlfamartDefaultIcon,
+  AlfamidiBlankIcon,
+  AlfamidiDefaultIcon,
+  ATMBlankIcon,
+  ATMDefaultIcon,
+  DebitBlankIcon,
+  DebitDefaultIcon,
+  IndomaretBlankIcon,
+  IndomaretDefaultIcon,
+  MBankingBlankIcon,
+  MBankingDefaultIcon,
+  MinimarketBlankIcon,
+  MinimarketDefaultIcon,
+  QrisBlankIcon,
+  QrisDefaultIcon,
+  SaldoBlankIcon,
+  SaldoDefaultIcon,
+  TunaiBlankIcon,
+  TunaiDefaultIcon,
+  VAccBlankIcon,
+  VAccDefaultIcon,
 
-//ICON BANK
-BCABlankIcon,
-BCADefaultIcon,
-BJBBlankIcon,
-BJBDefaultIcon,
-BNIBlankIcon,
-BNIDefaultIcon,
-BRIBlankIcon,
-BRIDefaultIcon,
-MandiriBlankIcon,
-MandiriDefaultIcon,
+  //ICON BANK
+  BCABlankIcon,
+  BCADefaultIcon,
+  BJBBlankIcon,
+  BJBDefaultIcon,
+  BNIBlankIcon,
+  BNIDefaultIcon,
+  BRIBlankIcon,
+  BRIDefaultIcon,
+  MandiriBlankIcon,
+  MandiriDefaultIcon,
 
+  //NUMBER ROUNDED
+  OneRounded,
+  TwoRounded,
+  ThreeRounded,
+  FourRounded,
+  FiveRounded,
+  SixRounded,
+  SevenRounded,
+  EightRounded,
+  NineRounded,
 
-//NUMBER ROUNDED
-OneRounded,TwoRounded,ThreeRounded,FourRounded,FiveRounded,SixRounded,SevenRounded,EightRounded,NineRounded,
+  // TUP UP STATUS
+  TopUpInvalidIcon,
+  TopUpPendingIcon,
+  TopUpValidIcon,
 
-// TUP UP STATUS
-TopUpInvalidIcon,
-TopUpPendingIcon,
-TopUpValidIcon,
+  //SPLASH IMAGE
+  Splash_1,
+  Splash_2,
+  Splash_3,
+  Splash_4,
+  LogoAuth,
 
-//SPLASH IMAGE
-Splash_1,
-Splash_2,
-Splash_3,
-Splash_4,
+  //SHOW PASSWORD
+  ShowOff,
+  ShowOn,
 
-LogoAuth,
-
-//SHOW PASSWORD
-// ShowOff,
-ShowOn,
-
-//LOGIN METHOD
-ByEmailIcon,
-ByFBIcon,
-ByGoogleIcon,
-
-
+  //LOGIN METHOD
+  ByEmailIcon,
+  ByFBIcon,
+  ByGoogleIcon,
+  ByPhoneIcon,
 };
