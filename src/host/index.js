@@ -1,1 +1,0 @@
-export const BASE_URL = "http://103.183.74.5:8000";

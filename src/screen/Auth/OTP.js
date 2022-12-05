@@ -17,7 +17,7 @@ import {
 import colors from "../../assets/colors";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { BASE_URL } from "../../host";
+import { BASE_URL, url } from "../../service";
 
 const OTP = ({ navigation, route }) => {
     const [byEmail, setByEmail] = useState(false);

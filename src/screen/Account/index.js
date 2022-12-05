@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState,useEffect} from "react";
 import { View, Text, ScrollView, Image ,StyleSheet , TouchableOpacity} from "react-native";
 import colors from "../../assets/colors";
 import {
@@ -23,14 +23,56 @@ import {
 } from "../../assets";
 import {Assistant, SaldoInfo, AssistantModal,} from '../../component'
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { url, BASE_URL } from "../../service";
+import axios from "axios";
+
 const Account = ({navigation}) => {
+  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState("");
 const data={
-  username : 'Litha Octopus',
-  phone: '083826455374856',
-  email:'lithaoct@gmail.com'
+  username : 'User2132',
+  phone: '08333333333',
+  email:'user323@email.com'
 }
 
-const [visibleModal, setVisibleModal] = useState(false)
+const [token, setToken] = useState();
+const getData = async () => {
+  try {
+    const value = await AsyncStorage.getItem("token");
+    if (value !== null) {
+      setToken(value);
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
+useEffect(() => {
+  getData();
+  if(!token){
+    return
+  }else{
+  getUserData();
+  }
+}, []);
+
+const getUserData = () => {
+  axios
+    .get(`${BASE_URL}${url.auth.getProfile}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((res) =>{
+      console.log("get user data : ", res.data.data)
+      setEmail(res.data.data.email);
+      setPhone(res.data.data.phone);
+      setUsername(res.data.data.name);
+  })
+    .catch((err) => console.log(err));
+};
+
     return (
       <View style={s.body}>
         <ScrollView>
@@ -44,9 +86,9 @@ const [visibleModal, setVisibleModal] = useState(false)
                 width: "75%",
               }}
             >
-              <Text style={s.username}>{data.username}</Text>
-              <Text style={s.phone}>{data.phone}</Text>
-              <Text style={s.email}>{data.email}</Text>
+              <Text style={s.username}>{username? username : data.username}</Text>
+              <Text style={s.phone}>{phone? phone : data.phone}</Text>
+              <Text style={s.email}>{email? email : data.email}</Text>
             </View>
             <TouchableOpacity
               style={s.btnEdit}
@@ -197,6 +239,7 @@ const s = StyleSheet.create({
     fontFamily: "roboto",
     fontSize: 20,
     fontWeight: "bold",
+    textTransform:'capitalize',
     color: colors.BLACK,
   },
   phone: {

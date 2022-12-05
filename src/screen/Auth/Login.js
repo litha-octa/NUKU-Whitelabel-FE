@@ -14,13 +14,13 @@ import {
 import colors from '../../assets/colors'
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { BASE_URL } from "../../host";
+import { BASE_URL, url } from "../../service";
 
 
 
 
   const  Login =({navigation, route})=>{
-    const [token, setToken]= useState()
+    const [token, setToken] = useState();
     const [byEmail, setByEmail] = useState(false)
     const [showPass, setShowPass] = useState(false)
     const [email,setEmail] = useState()
@@ -28,27 +28,13 @@ import { BASE_URL } from "../../host";
     const [password, setPassword] = useState()
     const desc= 'selamat datang kembali pengguna tercinta, silahkan isi nomor handphone yang sudah terdaftar di bawah sini'
 
-  useEffect(()=>{
-if(!token){
-  return;
-}else{
-   storeData();
-}
-},[])
- const storeData = async () => {
-        try {
-          const data = await AsyncStorage.setItem("token", token);
-          console.log(data)
-        } catch (e) {
-         console.log(e)
-      }
-  };
+
     const loginHandler = () =>{
 if(!email || !password){
   Alert.alert('oops!', 'Lengkapi Email dan Password')
 }else{         axios({
            method: "POST",
-           url: `${BASE_URL}/api/v1/user/login`,
+           url: `${BASE_URL}${url.auth.login}`,
            headers: {
              "Access-Control-Allow-Origin": "*",
            },
@@ -65,8 +51,28 @@ if(!email || !password){
              ) {
                alert("LOGIN FAILED");
              } else {
-              console.log('login berhasil')
               setToken(res.data.data.token);
+               const storeData = async() => {
+                 try {
+                  await AsyncStorage.setItem("token", res.data.data.token)
+                 } catch (e) {
+                   console.log(e);
+                 }
+               };
+               storeData()
+              const getData = async () => {
+                try {
+                  const value = await AsyncStorage.getItem("token");
+                  if (value !== null) {
+                    console.log('get token here : ', value)
+                    navigation.navigate('MainApp')
+                  }
+                } catch (e) {
+                  // error reading value
+                }
+              };
+                getData()
+
            }
           })
            .catch((err) => {

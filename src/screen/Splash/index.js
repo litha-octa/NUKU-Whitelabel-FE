@@ -1,14 +1,35 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
 import {Logo} from '../../assets'
 import colors from '../../assets/colors'
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Splash = ({navigation}) => {
-
+const [token, setToken] = useState();
+const getData = async () => {
+  try {
+    const value = await AsyncStorage.getItem("token");
+    if (value !== null) {
+      setToken(value);
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
 useEffect(() => {
-        setTimeout( () => {
-            navigation.replace('LoginRoute');
-        }, 3000)
+  getData();
+}, []);
+useEffect(() => {
+    if(!token){
+setTimeout(() => {
+  navigation.replace("LoginRoute");
+}, 3000);
+    }else{
+        setTimeout(() => {
+          navigation.replace("MainApp");
+        }, 3000);
+    }
+        
     }, [navigation]);
 
     return (

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity,SafeAreaView } from "react-native";
 import {
   LocationIcon,
@@ -22,16 +22,49 @@ import {
 } from "../../assets";
 import colors from "../../assets/colors";
 import {SaldoInfo, Kategori, Assistant, AssistantModal } from "../../component";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { url, BASE_URL } from "../../service";
+import axios from "axios";
+
+
 
 const Home = ({navigation, route}) => {
-  // const {token} = route.params
-  // console.log(token)
+  const [token, setToken] = useState(null);
+  const getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem("token");
+      if (value !== null) {
+        setToken(value);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  useEffect(()=>{
+getData()
+if(token !== null){ 
+getUserData() 
+}
+  },[])
+
+  const getUserData =() =>{
+    axios.get(`${BASE_URL}${url.getProfile}`
+      , {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    })
+    .then((res)=>console.log('get user data : ',  res.data))
+    .catch((err)=>console.log(err))
+  }
   const locationName = "Kantor Nifarro Park";
   const storeList = [
     { name: "Zarara Official" },
     { name: "Oleh-Oleh Indonesia" },
     { name: "Toko UMKM" },
   ];
+
+
   return (
     <SafeAreaView style={{ marginBottom: 40 }}>
       <View style={styles.header}>

@@ -11,7 +11,7 @@ import {
 } from "../../assets";
 import colors from '../../assets/colors'
 import CheckBox from '@react-native-community/checkbox'
-import { BASE_URL } from "../../host";
+import { BASE_URL, url } from "../../service";
 import {AssistantModal} from '../../component/AssistantModal'
 
   const  Register = ({navigation})=>{
