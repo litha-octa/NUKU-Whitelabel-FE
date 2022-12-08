@@ -4,8 +4,19 @@ import colors from "../../assets/colors";
 import { LocationIcon } from "../../assets";
 
 const CardProduct = (props) =>{
+  // PROPS LIST : 
+  // onPress,     ->> Saat card di Press
+  //idCard,          ->> Key card list
+  // img,         ->> Gambar Product
+  // nameProduct, ->> Nama Product
+  // price,       ->> Harga Product
+  // location,    ->> Lokasi Toko yang Menjual produk
+  // rate,        ->> Rate barang dari ulasan user
+  // sold,        ->> Sold Count, Bayak barang yang terjual per transaksi
+
+
     return (
-      <TouchableOpacity style={s.card} onPress={props.onPress} key={props.key}>
+      <TouchableOpacity style={s.card} onPress={props.onPress} key={props.idCard}>
         <Image style={s.cardImg} source={props.img} />
         <Text style={s.cardName}>{props.nameProduct}</Text>
         <Text style={s.cardPrice}>Rp.{props.price}</Text>
@@ -16,7 +27,7 @@ const CardProduct = (props) =>{
             marginHorizontal: 10,
           }}
         >
-          <Image source={LocationIcon} />
+          <Image source={LocationIcon} style={s.LocationIcon} />
           <Text style={s.cardLocation}>{props.location}</Text>
         </View>
         <View
@@ -26,7 +37,7 @@ const CardProduct = (props) =>{
             marginHorizontal: 10,
           }}
         >
-          <Image source={LocationIcon} />
+          <Image source={LocationIcon} style={s.LocationIcon} />
           <Text>{props.rate}</Text>
           <Text> | </Text>
           <Text>Terjual ({props.sold})</Text>
@@ -77,4 +88,8 @@ const s = StyleSheet.create({
     color: colors.BLACK,
     marginBottom: 10,
   },
+  LocationIcon:{
+    width:15,
+    height:15,
+  }
 });

@@ -22,12 +22,13 @@ import {
   ArrowGreyIcon,
 } from "../../assets";
 import {Assistant, SaldoInfo, AssistantModal,} from '../../component'
-
+import { useIsFocused } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { url, BASE_URL } from "../../service";
 import axios from "axios";
 
 const Account = ({navigation}) => {
+   const isFocused = useIsFocused();
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState("");
@@ -38,7 +39,7 @@ const data={
 }
 
 const [token, setToken] = useState();
-const getData = async () => {
+const getToken = async () => {
   try {
     const value = await AsyncStorage.getItem("token");
     if (value !== null) {
@@ -49,13 +50,11 @@ const getData = async () => {
   }
 };
 useEffect(() => {
-  getData();
-  if(!token){
-    return
-  }else{
-  getUserData();
+  getToken();
+  if (token && isFocused) {
+    getUserData();
   }
-}, []);
+}, [navigation, isFocused]);
 
 const getUserData = () => {
   axios
@@ -65,12 +64,26 @@ const getUserData = () => {
       },
     })
     .then((res) =>{
-      console.log("get user data : ", res.data.data)
       setEmail(res.data.data.email);
-      setPhone(res.data.data.phone);
+      setPhone(res.data.data.customer.phone);
       setUsername(res.data.data.name);
   })
     .catch((err) => console.log(err));
+};
+
+const logoutHandler = () => {
+ axios({
+           method: "POST",
+           url: `${BASE_URL}${url.auth.logout}`,
+           headers: {
+            Authorization: `Bearer ${token}`,
+             "Access-Control-Allow-Origin": "*",
+           },
+        })
+    .then((res) => {
+      console.log("respon log out handler : ", res.data);
+    })
+    .catch((err) => console.log("error log out handler : ", err));
 };
 
     return (
@@ -195,7 +208,7 @@ const getUserData = () => {
               <Image source={ArrowGreyIcon} style={s.listRightImg} />
             </View>
           </View>
-          <TouchableOpacity style={s.logoutBtn}>
+          <TouchableOpacity style={s.logoutBtn} onPress={()=>logoutHandler()}>
             <Text style={s.logoutBtnText}>Keluar Akun</Text>
           </TouchableOpacity>
           <Image source={WatermarkBottom} style={s.watermark} />

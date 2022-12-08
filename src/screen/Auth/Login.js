@@ -64,7 +64,6 @@ if(!email || !password){
                 try {
                   const value = await AsyncStorage.getItem("token");
                   if (value !== null) {
-                    console.log('get token here : ', value)
                     navigation.navigate('MainApp')
                   }
                 } catch (e) {

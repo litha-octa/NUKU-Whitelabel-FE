@@ -5,13 +5,18 @@ import colors from '../../assets/colors'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Splash = ({navigation}) => {
-const [token, setToken] = useState();
 const getData = async () => {
   try {
     const value = await AsyncStorage.getItem("token");
     if (value !== null) {
-      setToken(value);
-    }
+      setTimeout(() => {
+        navigation.replace("MainApp");
+      }, 3000);
+    }else{
+        setTimeout(() => {
+          navigation.replace("MainApp");
+        }, 3000);
+      }
   } catch (e) {
     console.log(e);
   }
@@ -19,18 +24,6 @@ const getData = async () => {
 useEffect(() => {
   getData();
 }, []);
-useEffect(() => {
-    if(!token){
-setTimeout(() => {
-  navigation.replace("LoginRoute");
-}, 3000);
-    }else{
-        setTimeout(() => {
-          navigation.replace("MainApp");
-        }, 3000);
-    }
-        
-    }, [navigation]);
 
     return (
         <View style={styles.body}>
@@ -49,10 +42,10 @@ const styles =StyleSheet.create({
         height:'100%',
     },
     logo:{
-        width:'30%',
-        height:'30%',
+        width:'50%',
+        height:'40%',
         resizeMode:'contain',
         alignSelf:'center',
-        marginTop:'55%', 
+        marginTop:'45%', 
     },
 })

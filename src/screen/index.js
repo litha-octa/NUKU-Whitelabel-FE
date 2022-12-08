@@ -1,7 +1,7 @@
 import Splash from './Splash'
 import Payment from './Payment'
 import Merchant from './Merchant'
-import ProductDetail from './ProductDetail'
+
 import MyCart from './MyCart'
 
 //MAINApp
@@ -32,35 +32,37 @@ import PaymentMethod from './TopUp/PaymentMethod'
     import Register from './Auth/Register';
     import OTP from './Auth/OTP';
 
+import Product from './Product';
+import ProductDetail from "./Product/ProductDetail";
 
 export {
   Payment,
   Splash,
-  Merchant,
-  ProductDetail,
   MyCart,
   // MAIN APP
   Home,
   Account,
-            //INSIDE ACCOUNT SCREEN
-            EditProfile,
-            Settings,
-                SettingsPrivasi,
-                SettingsDebit,
-                SettingsNotif,
-                SettingsBantuan,
+  //INSIDE ACCOUNT SCREEN
+  EditProfile,
+  Settings,
+  SettingsPrivasi,
+  SettingsDebit,
+  SettingsNotif,
+  SettingsBantuan,
   News,
   Order,
   Qris,
-
   TopUp,
   PaymentMethod,
-    MobileBanking,
-    StepMobileBanking,
-    TopUpStatus,
+  MobileBanking,
+  StepMobileBanking,
+  TopUpStatus,
+  Login,
+  Auth,
+  Register,
+  OTP,
 
-    Login,
-    Auth,
-    Register,
-    OTP,
+  Product,
+  Merchant,
+  ProductDetail,
 };

@@ -21,42 +21,65 @@ import {
   StoreIcon,
 } from "../../assets";
 import colors from "../../assets/colors";
-import {SaldoInfo, Kategori, Assistant, AssistantModal } from "../../component";
+import {SaldoInfo, Kategori,CardProduct, Assistant, AssistantModal } from "../../component";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { url, BASE_URL } from "../../service";
 import axios from "axios";
+import { useIsFocused } from "@react-navigation/native";
+
 
 
 
 const Home = ({navigation, route}) => {
-  const [token, setToken] = useState(null);
-  const getData = async () => {
+   const isFocused = useIsFocused();
+  const [bestProduct, setBestProduct] = useState();
+
+  const [token, setToken] = useState();
+  const getToken = async () => {
     try {
       const value = await AsyncStorage.getItem("token");
       if (value !== null) {
         setToken(value);
-      }
-    } catch (e) {
-      console.log(e);
+        console.log(value)
+        getUserData(value)
+        ProductUnggulan(value)
+    }} catch (e) {
+      console.log('get Token error : ', e);
     }
   };
-  useEffect(()=>{
-getData()
-if(token !== null){ 
-getUserData() 
-}
-  },[])
 
-  const getUserData =() =>{
-    axios.get(`${BASE_URL}${url.getProfile}`
+  
+
+  const getUserData =(x)=>{
+    axios.get(`${BASE_URL}${url.auth.getProfile}`
       , {
       headers: {
-        'Authorization': `Bearer ${token}`,
+        'Authorization': `Bearer ${x}`,
       },
     })
     .then((res)=>console.log('get user data : ',  res.data))
-    .catch((err)=>console.log(err))
+    .catch((err)=>console.log('get user data error : ',err))
   }
+
+  const ProductUnggulan =(x)=>{
+    axios 
+    .get(`${BASE_URL}${url.product}?page=1&size=5`,
+    {
+      headers: {
+        'Authorization': `Bearer ${x}`,
+      },
+    })
+    .then((res)=>{
+    console.log(res.data.data)
+    setBestProduct(res.data.data)
+    })
+
+    .catch((err)=>console.log('get product error : ',err))
+  };
+
+useEffect(() => {
+  getToken();
+}, []);
   const locationName = "Kantor Nifarro Park";
   const storeList = [
     { name: "Zarara Official" },
@@ -75,7 +98,7 @@ getUserData()
           style={{ width: 20, height: 20, resizeMode: "contain" }}
         />
         <View style={styles.headerRightIcon}>
-          <TouchableOpacity onPress={()=>navigation.navigate('MyCart')}>
+          <TouchableOpacity onPress={() => navigation.navigate("MyCart")}>
             <Image source={IconKeranjang} style={styles.headerIcon2} />
           </TouchableOpacity>
           <Image source={IconNotif} style={styles.headerIcon2} />
@@ -85,7 +108,10 @@ getUserData()
 
       <ScrollView>
         <View style={styles.body}>
-          <SaldoInfo saldo="5.000" onTopUp={()=> navigation.navigate('TopUpRoute')}/>
+          <SaldoInfo
+            saldo="5.000"
+            onTopUp={() => navigation.navigate("TopUpRoute")}
+          />
           <Image source={BannerAds} style={styles.banner} />
           <Assistant
             msg='untuk mengetahui fitur apa aja yang ada di aplikasi, kamu bisa tekan
@@ -107,22 +133,20 @@ getUserData()
         </View>
         <View style={styles.pinkContainer}>
           <TouchableOpacity style={styles.cardInPinkContainer}>
-            
-              <Image source={AnterinIcon} style={styles.iconTransport} />
-            
+            <Image source={AnterinIcon} style={styles.iconTransport} />
+
             <Text style={styles.textCardTransport}>NuKu Anterin</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.cardInPinkContainer}>
-            
-              <Image source={BelanjainIcon} style={styles.iconTransport} />
+            <Image source={BelanjainIcon} style={styles.iconTransport} />
             <Text style={styles.textCardTransport}>NuKu Belanja</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.cardInPinkContainer}>
-              <Image source={KiriminIcon} style={styles.iconTransport} />
+            <Image source={KiriminIcon} style={styles.iconTransport} />
             <Text style={styles.textCardTransport}>NuKu Kirimin</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.cardInPinkContainer}>
-              <Image source={CallCenterIcon} style={styles.iconTransport} />
+            <Image source={CallCenterIcon} style={styles.iconTransport} />
             <Text style={styles.textCardTransport}>NuKu Center</Text>
           </TouchableOpacity>
         </View>
@@ -157,10 +181,34 @@ getUserData()
           <Image source={BannerMini} style={styles.bannerMini} />
           <View style={{ marginVertical: 10 }}>
             <AssistantModal
+            pressBtn={()=>navigation.navigate('Product')}
               title="Produk Unggulan"
               textButton="Lihat Semua"
               msg="memberikan produk-produk yang sedang laku dan menjadi unggulan di aplikasi ini, jadi kamu gak akan ketinggalan dengan produk yang lagi trending."
             />
+           
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                }}
+              >
+                {bestProduct?.map((item, index) => {
+                  return (
+                    <CardProduct
+                      //  onPress = {}
+                      // img,
+                      // idCard={item.uuid}
+                      nameProduct={item.name}
+                      price={item.price}
+                      // location,    ->> Lokasi Toko yang Menjual produk
+                      // rate,        ->> Rate barang dari ulasan user
+                      // sold,        ->> Sold Count, Bayak barang yang terjual per transaksi
+                    />
+                  );
+                })}
+              </View>
+           
           </View>
         </View>
         <View style={styles.body}>

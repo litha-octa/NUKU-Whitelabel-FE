@@ -33,13 +33,14 @@ const AssistantModal = (props) => {
           <Image source={QuestIcon} style={styles.questIcon} />
         </TouchableOpacity>
         <Text style={styles.TitleText}>{props.title}</Text>
-        <Pressable
+        <TouchableOpacity
+        onPress={props.pressBtn}
           style={
             props.textButton ? styles.serviceTitleBtn : { display: "none" }
           }
         >
           <Text style={styles.textBtn}>{props.textButton}</Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
     </View>
   );

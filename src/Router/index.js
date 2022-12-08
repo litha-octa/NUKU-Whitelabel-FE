@@ -27,6 +27,7 @@ import {
   Register,
   Auth,
   OTP,
+  Product,
 } from "../screen";
 
 import {
@@ -235,6 +236,11 @@ const Router = ({navigation}) => {
       <Stack.Screen
         name="Merchant"
         component={Merchant}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Product"
+        component={Product}
         options={{ headerShown: false }}
       />
       <Stack.Screen

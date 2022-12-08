@@ -9,9 +9,11 @@ const StoreInfo =(props)=>{
       <View style={s.body}>
         <Image source={props.img ? props.img : DefaultImgMerch} style={s.img} />
         <View style={{ width: "60%", marginLeft: "3%", marginTop: 20 }}>
-          <Text style={s.storeName}>
-            {props.namaToko ? props.namaToko : "Toko Eka Mandiri"}
-          </Text>
+          <TouchableOpacity onPress={props.onPress}>
+            <Text style={s.storeName}>
+              {props.namaToko ? props.namaToko : "Toko Eka Mandiri"}
+            </Text>
+          </TouchableOpacity>
           <View style={{ display: "flex", flexDirection: "row" }}>
             <Image
               source={LEDIcon}

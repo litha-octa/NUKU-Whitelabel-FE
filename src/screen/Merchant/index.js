@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {View, Text, TextInput, Image, TouchableOpacity,StyleSheet, SafeAreaView,ScrollView} from 'react-native'
 import {
   LeftArrowTail,
@@ -11,13 +11,64 @@ import {
 import colors from "../../assets/colors";
 import { CardProduct } from "../../component";
 import { product } from "../../assets/states";
+import axios from "axios";
+import { BASE_URL,url } from "../../service";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Merchant =({navigation, route})=>{
- 
   const [isFollow, setIsFollow] = useState(false)
-  const productCount = 20
-    const {storeName} = route.params
-    console.log(storeName)
+    const {uuidStore} = route.params
+    console.log(uuidStore)
+    const [merchant, setMerchant] = useState()
+    const [listProduct, setListProduct] = useState()
+
+    const getToken = async () => {
+  try {
+    const value = await AsyncStorage.getItem("token");
+    if (value !== null) {
+      MerchantData(value, uuidStore);
+      AllProduct(value, uuidStore);
+    }
+  } catch (e) {
+    console.log("get Token error : ", e);
+  }
+};
+const MerchantData = (x, y)=>{
+  axios.get(`${BASE_URL}${url.merchant}/${y}`,
+  {headers:{
+    Authorization : `Bearer ${x}`,
+  }}
+  )
+  .then((res)=>{
+    console.log(res.data)
+    setMerchant(res.data.data)
+  })
+  .catch((err)=>{
+    console.log(err)
+  })
+}
+
+const AllProduct = (x, y) => {
+  axios
+    .get(`${BASE_URL}${url.merchant}/${y}/product`, {
+      headers: {
+        Authorization: `Bearer ${x}`,
+      },
+    })
+    .then((res) => {
+      console.log(res.data);
+      setListProduct(res.data.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+ useEffect(() => {
+   getToken();
+ }, []);
+
+    const productCount = 20;
     const dummyimage =
       "https://yt3.ggpht.com/a-/AAuE7mAjCgbd8Wq35r6JNQr0xXzJZsZThycm7ayRFw=s900-mo-c-c0xffffffff-rj-k-no";
     return (
@@ -35,7 +86,8 @@ const Merchant =({navigation, route})=>{
               <Image source={{ uri: dummyimage }} style={s.storePic} />
               <Image />
               <View style={{ width: "80%", marginLeft: "5%" }}>
-                <Text style={s.storeName}>{storeName}</Text>
+                <Text style={s.storeName}>{merchant?.name}</Text>
+                <Text style={s.slogan}>{merchant?.slogan}</Text>
                 <View style={s.section}>
                   <Image source={LEDIcon} style={s.iconSection} />
                   <Text style={s.storeStatus}>Online</Text>
@@ -81,10 +133,14 @@ const Merchant =({navigation, route})=>{
                   paddingBottom: 30,
                 }}
               >
-                {product?.map((item,index)=>{
+                {listProduct?.map((item, index) => {
                   return (
                     <CardProduct
-                    onPress={()=>{navigation.navigate('ProductDetail', {detailData:product[index],})}}
+                      onPress={() => {
+                        navigation.navigate("ProductDetail", {
+                          detailData: product[index],
+                        });
+                      }}
                       img={{ uri: item.img }}
                       nameProduct={item.name}
                       price={item.price}
@@ -94,7 +150,6 @@ const Merchant =({navigation, route})=>{
                     />
                   );
                 })}
-                
               </View>
             </View>
           </View>
@@ -150,6 +205,12 @@ const s = StyleSheet.create({
     fontFamily: "roboto",
     color: colors.BLACK,
     fontSize: 15,
+  },
+  slogan: {
+    fontWeight: "bold",
+    fontFamily: "roboto",
+    color: colors.BLACK,
+    fontSize: 13,
   },
   storeStatus: {
     color: colors.SUCCESS,
@@ -247,6 +308,4 @@ const s = StyleSheet.create({
     color: colors.GREY,
     fontSize: 15,
   },
-
-  
 });
