@@ -49,12 +49,11 @@ const ProductDetail = (x,y) => {
     .then((res) => {
       console.log("product data : ", res.data.data);
       setProduct(res.data.data)
-      const data = res.data.data;
-      setName(data.name);
-      setPrice(data.price);
-      setMerchant(data.merchant_name);
-      setCondition(data.condition)
-      setLocation(data.merchant_address.regency_name);
+      setName(res.data.data.name);
+      setPrice(res.data.data.price);
+      setMerchant(res.data.data.merchant_name);
+      setCondition(res.data.data.condition);
+      setLocation(res.data.data.merchant_address.regency_name);
     })
 
     .catch((err) => console.log("get product error : ", err));

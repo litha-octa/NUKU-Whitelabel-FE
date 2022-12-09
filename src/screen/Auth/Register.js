@@ -95,21 +95,21 @@ import {AssistantModal} from '../../component/AssistantModal'
     }
     return (
       <View>
-        <ScrollView>
-          <View style={s.header}>
-            <TouchableOpacity
-              style={{ width: "15%" }}
-              onPress={() => navigation.navigate("Auth")}
-            >
-              <Image source={LeftArrowTail} style={s.iconHeader} />
-            </TouchableOpacity>
-            <View style={s.midleHeader}></View>
-            <View style={{ width: "25%" }}>
-              <Image source={LogoAuth} style={s.logoHeader} />
-            </View>
+        <View style={s.header}>
+          <TouchableOpacity
+            style={{ width: "15%" }}
+            onPress={() => navigation.navigate("Auth")}
+          >
+            <Image source={LeftArrowTail} style={s.iconHeader} />
+          </TouchableOpacity>
+          <View style={s.midleHeader}></View>
+          <View style={{ width: "25%" }}>
+            <Image source={LogoAuth} style={s.logoHeader} />
           </View>
-          <View style={s.body}>
-            <KeyboardAvoidingView>
+        </View>
+        <View style={s.body}>
+          <KeyboardAvoidingView>
+            <ScrollView>
               <Text style={s.title}>Daftar</Text>
               <Text style={s.desc}>{desc}</Text>
               <Text style={s.inputTitle}>Nama Lengkap</Text>
@@ -134,7 +134,7 @@ import {AssistantModal} from '../../component/AssistantModal'
                 <TextInput
                   placeholder="Contoh : syahrul123@gmail.com"
                   value={email}
-                  onChangeText={(text)=>setEmail(text)}
+                  onChangeText={(text) => setEmail(text)}
                 />
               </View>
               <Text style={s.inputTitle}>Password</Text>
@@ -143,7 +143,7 @@ import {AssistantModal} from '../../component/AssistantModal'
                   placeholder="Yang Gampang Diingat ya"
                   secureTextEntry={showPass == false ? true : false}
                   value={pass}
-                  onChangeText={(text)=>setPass(text)}
+                  onChangeText={(text) => setPass(text)}
                 />
               </View>
 
@@ -153,42 +153,37 @@ import {AssistantModal} from '../../component/AssistantModal'
                   placeholder="Ulangi yang sudah dibikin"
                   secureTextEntry={showPass2 == false ? true : false}
                   value={confirmPass}
-                  onChangeText={(text)=>setConfirmPass(text)}
+                  onChangeText={(text) => setConfirmPass(text)}
                 />
               </View>
-            </KeyboardAvoidingView>
+            </ScrollView>
+          </KeyboardAvoidingView>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              width: "100%",
+              marginBottom:20,
+            }}
+          >
+            <View style={{ width: "20%" }}>
+              <CheckBox value={ok} onValueChange={() => setOk(!ok)} />
+            </View>
             <View
               style={{
-                display: "flex", 
-                flexDirection: "row",
-                width: "100%",
-                marginBottom: 60,
+                width: "70%",
+                display: "flex",
+                flexWrap: "wrap-reverse",
               }}
             >
-              <View style={{ width: "20%" }}>
-                <CheckBox value={ok} onValueChange={() => setOk(!ok)} />
-              </View>
-              <View
-                style={{
-                  width: "80%",
-                  display: "flex",
-                  flexWrap: "wrap-reverse",
-                }}
-              >
-                <Text style={s.bottomText}>
-                  Dengan mendaftar anda menyetujui
-                </Text>
-                <Text style={s.bottomText2}>Syarat dan Ketentuan</Text>
-              </View>
+              <Text style={s.bottomText}>Dengan mendaftar anda menyetujui</Text>
+              <Text style={s.bottomText2}>Syarat dan Ketentuan</Text>
             </View>
-            <TouchableOpacity
-              style={s.btn}
-              onPress={()=>submit()}
-            >
-              <Text style={s.btnText}>Daftar </Text>
-            </TouchableOpacity>
           </View>
-        </ScrollView>
+          <TouchableOpacity style={s.btn} onPress={() => submit()}>
+            <Text style={s.btnText}>Daftar </Text>
+          </TouchableOpacity>
+        </View>
         <View style={s.fixedBottom}>
           <Text style={s.bottomText}>Sudah Punya Akun ? </Text>
           <TouchableOpacity onPress={() => navigation.navigate("Login")}>
@@ -206,7 +201,7 @@ const s = StyleSheet.create({
     width: "100%",
     backgroundColor: colors.WHITE,
     paddingHorizontal: "3%",
-    height: 70,
+    height: '10%',
     paddingVertical: 5,
   },
   iconHeader: {
@@ -227,7 +222,6 @@ const s = StyleSheet.create({
     backgroundColor: colors.WHITE,
     paddingHorizontal: "3%",
     paddingTop: 10,
-    paddingBottom:60,
 
   },
   title: {
@@ -238,7 +232,7 @@ const s = StyleSheet.create({
   },
   desc: {
     fontFamily: "roboto",
-    fontSize: 12,
+    fontSize: 13,
     color: colors.BLACK,
     marginBottom: 20,
   },
@@ -272,16 +266,17 @@ const s = StyleSheet.create({
     fontWeight: "bold",
   },
   fixedBottom: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    bottom: 0,
-    height: 50,
+    // position: "absolute",
+    // left: 0,
+    // right: 0,
+    // bottom: 0,
+    height: '10%',
     display: "flex",
     flexDirection: "row",
     width: "100%",
     justifyContent:'center',
     backgroundColor:colors.WHITE,
+    paddingTop:20,
   },
   bottomText: {
     fontFamily: "roboto",

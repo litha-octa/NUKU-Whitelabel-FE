@@ -196,7 +196,7 @@ useEffect(() => {
                 {bestProduct?.map((item, index) => {
                   return (
                     <CardProduct
-                      //  onPress = {}
+                      onPress = {()=>navigation.navigate('ProductDetail', {uuid : item.uuid})}
                       // img,
                       // idCard={item.uuid}
                       nameProduct={item.name}

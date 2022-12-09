@@ -14,7 +14,7 @@ const getData = async () => {
       }, 3000);
     }else{
         setTimeout(() => {
-          navigation.replace("MainApp");
+          navigation.replace("LoginRoute");
         }, 3000);
       }
   } catch (e) {

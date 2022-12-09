@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {View, Text, Image, TouchableOpacity, TextInput, StyleSheet, ScrollView, Alert} from 'react-native'
+import {View, Text, Image, TouchableOpacity, TextInput, StyleSheet, KeyboardAvoidingView,Alert} from 'react-native'
 import {
   LeftArrowTail,
   LogoAuth,
@@ -91,20 +91,19 @@ if(!email || !password){
     
     return (
       <View>
-        <ScrollView>
-          <View style={s.header}>
-            <TouchableOpacity
-              style={{ width: "15%" }}
-              onPress={() => navigation.navigate("Auth")}
-            >
-              <Image source={LeftArrowTail} style={s.iconHeader} />
-            </TouchableOpacity>
-            <View style={s.midleHeader}></View>
-            <View style={{ width: "25%" }}>
-              <Image source={LogoAuth} style={s.logoHeader} />
-            </View>
+        <View style={s.header}>
+          <TouchableOpacity
+            style={{ width: "15%" }}
+            onPress={() => navigation.navigate("Auth")}
+          >
+            <Image source={LeftArrowTail} style={s.iconHeader} />
+          </TouchableOpacity>
+          <View style={s.midleHeader}></View>
+          <View style={{ width: "25%" }}>
+            <Image source={LogoAuth} style={s.logoHeader} />
           </View>
-          <View style={s.body}>
+        </View>
+        <View style={s.body}>
             <Text style={s.title}>Masuk</Text>
             <Text style={s.desc}>{byEmail ? "Dengan Email" : ""}</Text>
             <Text style={s.desc}>{desc}</Text>
@@ -126,8 +125,10 @@ if(!email || !password){
                 }
               />
             </View>
-            <Text style={byEmail ? s.inputTitle: {display:'none'}}>Password</Text>
-            <View style={byEmail ? s.input : {display:'none'}}>
+            <Text style={byEmail ? s.inputTitle : { display: "none" }}>
+              Password
+            </Text>
+            <View style={byEmail ? s.input : { display: "none" }}>
               <TextInput
                 placeholder="Masukkan Password yang Sudah dibuat"
                 secureTextEntry={showPass == false ? true : false}
@@ -141,47 +142,56 @@ if(!email || !password){
                 style={{ width: "10%" }}
               >
                 <Image
-                  source={showPass ? ShowOff: ShowOn }
+                  source={showPass ? ShowOff : ShowOn}
                   style={{ width: 30, height: 30, marginVertical: 10 }}
                 />
               </TouchableOpacity>
             </View>
-            <TouchableOpacity style={s.btn} onPress={() =>{byEmail? loginHandler() : navigation.navigate('OTP')} }>
+            <TouchableOpacity
+              style={s.btn}
+              onPress={() => {
+                byEmail ? loginHandler() : navigation.navigate("OTP");
+              }}
+            >
               <Text style={s.btnText}>Masuk</Text>
             </TouchableOpacity>
-            <View style={s.bottomContainer}>
-              <Text style={s.titleContainer}>Metode Lain</Text>
-              <View style={s.underline}>
-                <Text style={s.descContainer}>
-                  masuk melalui metode lainnya, klik salah satu di bawah ini
-                </Text>
-              </View>
-              <View
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  width: "100%",
-                  paddingHorizontal: "25%",
-                  justifyContent: "space-between",
-                  marginTop: 15,
+          <View style={s.bottomContainer}>
+            <Text style={s.titleContainer}>Metode Lain</Text>
+            <View style={s.underline}>
+              <Text style={s.descContainer}>
+                masuk melalui metode lainnya, klik salah satu di bawah ini
+              </Text>
+            </View>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                width: "100%",
+                paddingHorizontal: "25%",
+                justifyContent: "space-between",
+                marginTop: 15,
+              }}
+            >
+              <TouchableOpacity
+                onPress={() => {
+                  setByEmail(!byEmail);
+                  setPassword("");
                 }}
               >
-                <TouchableOpacity onPress={() => {setByEmail(!byEmail); setPassword('')}}>
-                  <Image
-                    source={byEmail ? ByPhoneIcon : ByEmailIcon}
-                    style={s.loginMethod}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity>
-                  <Image source={ByGoogleIcon} style={s.loginMethod} />
-                </TouchableOpacity>
-                <TouchableOpacity>
-                  <Image source={ByFBIcon} style={s.loginMethod} />
-                </TouchableOpacity>
-              </View>
+                <Image
+                  source={byEmail ? ByPhoneIcon : ByEmailIcon}
+                  style={s.loginMethod}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Image source={ByGoogleIcon} style={s.loginMethod} />
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Image source={ByFBIcon} style={s.loginMethod} />
+              </TouchableOpacity>
             </View>
           </View>
-        </ScrollView>
+        </View>
         <View style={s.fixedBottom}>
           <Text style={s.bottomText}>Belum Punya Akun ? </Text>
           <TouchableOpacity onPress={() => navigation.navigate("Register")}>
@@ -199,7 +209,7 @@ const s = StyleSheet.create({
     width: "100%",
     backgroundColor: colors.WHITE,
     paddingHorizontal: "3%",
-    height: 70,
+    height: '10%',
     paddingVertical: 5,
   },
   iconHeader: {
@@ -216,11 +226,10 @@ const s = StyleSheet.create({
   },
   body: {
     width: "100%",
-    height:'100%',
+    height:'80%',
     backgroundColor: colors.WHITE,
     paddingHorizontal: "3%",
     paddingTop: 10,
-    paddingBottom:110,
   },
   title: {
     fontFamily: "roboto",
@@ -264,7 +273,9 @@ const s = StyleSheet.create({
     fontWeight: "bold",
   },
   bottomContainer: {
-    marginTop: 30,
+    height:'20%',
+    marginTop:'10%',
+    backgroundColor:colors.WHITE,
   },
   titleContainer: {
     fontFamily: "roboto",
@@ -290,15 +301,12 @@ const s = StyleSheet.create({
     height: 55,
   },
   fixedBottom: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    bottom: 0,
-    height: 50,
+    height: '10%',
     display: "flex",
     flexDirection: "row",
     width: "100%",
     justifyContent: "center",
+    paddingTop:10,
     backgroundColor: colors.WHITE,
   },
   bottomText: {

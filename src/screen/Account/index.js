@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from "react";
-import { View, Text, ScrollView, Image ,StyleSheet , TouchableOpacity} from "react-native";
+import { View, Text, ScrollView, Image ,StyleSheet,Alert ,TouchableOpacity} from "react-native";
 import colors from "../../assets/colors";
 import {
   DefaultProfileIcon,
@@ -44,23 +44,23 @@ const getToken = async () => {
     const value = await AsyncStorage.getItem("token");
     if (value !== null) {
       setToken(value);
+       getUserData();
     }
   } catch (e) {
     console.log(e);
   }
 };
 useEffect(() => {
-  getToken();
-  if (token && isFocused) {
-    getUserData();
+  if (isFocused) {
+     getToken();
   }
 }, [navigation, isFocused]);
 
-const getUserData = () => {
+const getUserData = (x) => {
   axios
     .get(`${BASE_URL}${url.auth.getProfile}`, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${x}`,
       },
     })
     .then((res) =>{
@@ -69,6 +69,16 @@ const getUserData = () => {
       setUsername(res.data.data.name);
   })
     .catch((err) => console.log(err));
+};
+
+const rmToken = async () => {
+  try {
+   await AsyncStorage.removeItem("token");
+  } catch (e) {
+    console.log(e)
+  }
+
+  console.log("Done.");
 };
 
 const logoutHandler = () => {
@@ -82,6 +92,11 @@ const logoutHandler = () => {
         })
     .then((res) => {
       console.log("respon log out handler : ", res.data);
+      if(res.data.status === 200 && res.data.message === 'success'){
+        rmToken()
+        Alert.alert('Anda telah keluar')
+        navigation.navigate('LoginRoute')
+      }
     })
     .catch((err) => console.log("error log out handler : ", err));
 };
@@ -99,9 +114,11 @@ const logoutHandler = () => {
                 width: "75%",
               }}
             >
-              <Text style={s.username}>{username? username : data.username}</Text>
-              <Text style={s.phone}>{phone? phone : data.phone}</Text>
-              <Text style={s.email}>{email? email : data.email}</Text>
+              <Text style={s.username}>
+                {username ? username : data.username}
+              </Text>
+              <Text style={s.phone}>{phone ? phone : data.phone}</Text>
+              <Text style={s.email}>{email ? email : data.email}</Text>
             </View>
             <TouchableOpacity
               style={s.btnEdit}
@@ -121,7 +138,10 @@ const logoutHandler = () => {
             <TouchableOpacity style={s.openStore}>
               <Text style={s.openStoreText}>Gabung Buka Toko</Text>
             </TouchableOpacity>
-            <SaldoInfo saldo=" 2.000" onTopUp={()=>navigation.navigate('TopUpRoute')} />
+            <SaldoInfo
+              saldo=" 2.000"
+              onTopUp={() => navigation.navigate("TopUpRoute")}
+            />
             <View style={{ marginVertical: 10 }}>
               <AssistantModal
                 title="Pesanan Kamu"
@@ -208,7 +228,7 @@ const logoutHandler = () => {
               <Image source={ArrowGreyIcon} style={s.listRightImg} />
             </View>
           </View>
-          <TouchableOpacity style={s.logoutBtn} onPress={()=>logoutHandler()}>
+          <TouchableOpacity style={s.logoutBtn} onPress={() => logoutHandler()}>
             <Text style={s.logoutBtnText}>Keluar Akun</Text>
           </TouchableOpacity>
           <Image source={WatermarkBottom} style={s.watermark} />

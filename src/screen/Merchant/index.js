@@ -17,15 +17,19 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Merchant =({navigation, route})=>{
   const [isFollow, setIsFollow] = useState(false)
+  const [token, setToken] = useState()
     const {uuidStore} = route.params
     console.log(uuidStore)
     const [merchant, setMerchant] = useState()
-    const [listProduct, setListProduct] = useState()
+    const [allProduct, setAllProduct] = useState()
+    const [productCount, setTotal] = useState();
+
 
     const getToken = async () => {
   try {
     const value = await AsyncStorage.getItem("token");
     if (value !== null) {
+      setToken(value)
       MerchantData(value, uuidStore);
       AllProduct(value, uuidStore);
     }
@@ -53,11 +57,11 @@ const AllProduct = (x, y) => {
     .get(`${BASE_URL}${url.merchant}/${y}/product`, {
       headers: {
         Authorization: `Bearer ${x}`,
-      },
+      }
     })
     .then((res) => {
-      console.log(res.data);
-      setListProduct(res.data.data);
+      setTotal(res.data.data.totalData)
+      setAllProduct(res.data.data.data);
     })
     .catch((err) => {
       console.log(err);
@@ -68,7 +72,6 @@ const AllProduct = (x, y) => {
    getToken();
  }, []);
 
-    const productCount = 20;
     const dummyimage =
       "https://yt3.ggpht.com/a-/AAuE7mAjCgbd8Wq35r6JNQr0xXzJZsZThycm7ayRFw=s900-mo-c-c0xffffffff-rj-k-no";
     return (
@@ -133,23 +136,19 @@ const AllProduct = (x, y) => {
                   paddingBottom: 30,
                 }}
               >
-                {listProduct?.map((item, index) => {
-                  return (
-                    <CardProduct
-                      onPress={() => {
-                        navigation.navigate("ProductDetail", {
-                          detailData: product[index],
-                        });
-                      }}
-                      img={{ uri: item.img }}
-                      nameProduct={item.name}
-                      price={item.price}
-                      location={item.location}
-                      rate={item.rate}
-                      sold={item.sold}
-                    />
-                  );
-                })}
+                {
+                  allProduct?.map((item)=>{
+                    return (
+                      <CardProduct
+                        img={{ uri: {`${BASE_URL}\${item.cover_file}`} }}
+                        nameProduct={item.name}
+                        price={item.price}
+                      />
+                    );
+                  })
+                }
+             
+          
               </View>
             </View>
           </View>
