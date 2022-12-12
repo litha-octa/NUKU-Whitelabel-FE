@@ -123,14 +123,17 @@ useEffect(() => {
               textButton="Lihat Daerah Lainnya"
               msg="di fitur marketplace lokal ini kamu bisa membeli produk-produk sesuai dengan kategorinya, dan juga asli dari UMKM itu sendiri sesuai komoditasnya masing-masing."
             />
-            <AssistantModal
-              title="Transportasi & Delivery"
-              msg="di fitur Transportasi dan Delivery, kamu bisa mendapatkan pelayanan dianter oleh ojek online kami, lalu bisa minta belanjain makanan yang kamu inginkan, dan bisa kirim barang atau produk sesuai dengan tujuan yang kamu inginkan."
-            />
           </View>
-          {/* <Kategori /> */}
-          {/* NUKU SERVICE */}
         </View>
+
+        <Kategori />
+        <View style={styles.body}>
+          <AssistantModal
+            title="Transportasi & Delivery"
+            msg="di fitur Transportasi dan Delivery, kamu bisa mendapatkan pelayanan dianter oleh ojek online kami, lalu bisa minta belanjain makanan yang kamu inginkan, dan bisa kirim barang atau produk sesuai dengan tujuan yang kamu inginkan."
+          />
+        </View>
+
         <View style={styles.pinkContainer}>
           <TouchableOpacity style={styles.cardInPinkContainer}>
             <Image source={AnterinIcon} style={styles.iconTransport} />
@@ -181,34 +184,35 @@ useEffect(() => {
           <Image source={BannerMini} style={styles.bannerMini} />
           <View style={{ marginVertical: 10 }}>
             <AssistantModal
-            pressBtn={()=>navigation.navigate('Product')}
+              pressBtn={() => navigation.navigate("Product")}
               title="Produk Unggulan"
               textButton="Lihat Semua"
               msg="memberikan produk-produk yang sedang laku dan menjadi unggulan di aplikasi ini, jadi kamu gak akan ketinggalan dengan produk yang lagi trending."
             />
-           
-              <View
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                }}
-              >
-                {bestProduct?.map((item, index) => {
-                  return (
-                    <CardProduct
-                      onPress = {()=>navigation.navigate('ProductDetail', {uuid : item.uuid})}
-                      // img,
-                      // idCard={item.uuid}
-                      nameProduct={item.name}
-                      price={item.price}
-                      // location,    ->> Lokasi Toko yang Menjual produk
-                      // rate,        ->> Rate barang dari ulasan user
-                      // sold,        ->> Sold Count, Bayak barang yang terjual per transaksi
-                    />
-                  );
-                })}
-              </View>
-           
+
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+              }}
+            >
+              {bestProduct?.map((item, index) => {
+                return (
+                  <CardProduct
+                    onPress={() =>
+                      navigation.navigate("ProductDetail", { uuid: item.uuid })
+                    }
+                    // img,
+                    // idCard={item.uuid}
+                    nameProduct={item.name}
+                    price={item.price}
+                    // location,    ->> Lokasi Toko yang Menjual produk
+                    // rate,        ->> Rate barang dari ulasan user
+                    // sold,        ->> Sold Count, Bayak barang yang terjual per transaksi
+                  />
+                );
+              })}
+            </View>
           </View>
         </View>
         <View style={styles.body}>

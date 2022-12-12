@@ -140,7 +140,7 @@ const AllProduct = (x, y) => {
                   allProduct?.map((item)=>{
                     return (
                       <CardProduct
-                        img={{ uri: {`${BASE_URL}\${item.cover_file}`} }}
+                        img={{ uri: {} }}
                         nameProduct={item.name}
                         price={item.price}
                       />

@@ -3,7 +3,7 @@ import {View, Text, ScrollView, SafeAreaView} from 'react-native'
 import { Tab, TabView } from "@rneui/themed";
 import colors from "../../assets/colors";
 import axios from "axios";
-import { CardProduct } from "../../component";
+import { CardMerchant, CardProduct, HeaderWithSearchbar } from "../../component";
 
 import { BASE_URL,url } from "../../service";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -47,11 +47,55 @@ const Product =({navigation})=>{
 
      }
    }, []);
+
+   const tokoList = [
+     {
+       nama: "Toko Makmur Fashion",
+       kategori: "Fashion",
+       location: "Jepara Medium",
+       km: "1.5km",
+       rate: "4.5",
+     },
+     {
+       nama: "Toko Sembako Litha",
+       kategori: "Makanan dan Minuman",
+       location: " Jakarta Barat",
+       km: "3 km",
+       rate: "5",
+     },
+     {
+       nama: "Butik Retno",
+       kategori: "Fashion",
+       location: "Lampung Utara",
+       km: "2.4 km",
+       rate: "4.8",
+     },
+     {
+       nama: "Vapor Wieby Uzi",
+       kategori: "Rokok Elektronik",
+       location: "Lamongan Timur",
+       km: "3.3 km",
+       rate: "4.6",
+     },
+     {
+       nama: "Sabrina Skincare",
+       kategori: "Kecantikan",
+       location: "Kalibata Indah",
+       km: "1 km",
+       rate: "4.9",
+     },
+   ];
+
+  
     return (
       <View>
-        <Text>product page here</Text>
+        <HeaderWithSearchbar
+          goBack={() => navigation.goBack()}
+          toMyCart={() => navigation.navigate("MyCart")}
+        />
         <Tab
           value={index}
+          containerStyle={{ backgroundColor: colors.WHITE }}
           onChange={(e) => setIndex(e)}
           indicatorStyle={{
             backgroundColor: colors.RED_MAIN,
@@ -60,23 +104,44 @@ const Product =({navigation})=>{
         >
           <Tab.Item
             title="Product"
-            titleStyle={{
-              fontSize: 15,
-              fontWeight: "bold",
-              color: colors.RED_MAIN,
-            }}
+            titleStyle={
+              index == 0
+                ? {
+                    fontSize: 15,
+                    fontWeight: "bold",
+                    color: colors.RED_MAIN,
+                  }
+                : {
+                    fontSize: 15,
+                    fontWeight: "bold",
+                    color: colors.PALE_GREY,
+                  }
+            }
           />
           <Tab.Item
             title="Toko"
-            titleStyle={{
-              fontSize: 15,
-              fontWeight: "bold",
-              color: colors.RED_MAIN,
-            }}
+            titleStyle={
+              index == 1
+                ? {
+                    fontSize: 15,
+                    fontWeight: "bold",
+                    color: colors.RED_MAIN,
+                  }
+                : {
+                    fontSize: 15,
+                    fontWeight: "bold",
+                    color: colors.PALE_GREY,
+                  }
+            }
           />
         </Tab>
         <View
-          style={{ backgroundColor: "pink", width: "100%", height: "95%", marginBottom:20,}}
+          style={{
+            backgroundColor: colors.WHITE,
+            width: "100%",
+            height: "95%",
+            marginBottom: 20,
+          }}
         >
           <TabView value={index} onChange={setIndex} animationType="spring">
             <ScrollView>
@@ -93,7 +158,9 @@ const Product =({navigation})=>{
                     return (
                       <CardProduct
                         onPress={() =>
-                          navigation.navigate("ProductDetail", { uuid : item.uuid})
+                          navigation.navigate("ProductDetail", {
+                            uuid: item.uuid,
+                          })
                         }
                         nameProduct={item.name}
                         price={item.price}
@@ -103,9 +170,40 @@ const Product =({navigation})=>{
                 </View>
               </TabView.Item>
             </ScrollView>
-            <TabView.Item style={{ width: "100%" }}>
-              <Text>toko</Text>
-            </TabView.Item>
+            <ScrollView>
+              <TabView.Item style={{ width: "100%"}}>
+                <View
+                  style={{
+                    alignItems: "center",
+                    marginTop: 30,
+                    marginBottom:'35%',
+                  }}
+                >
+                  {tokoList.map((item, index) => {
+                    return (
+                      <View >
+                        <CardMerchant
+                          //  img
+                          rate={item.rate}
+                          merchantName={item.nama}
+                          kategori={item.kategori}
+                          location={item.location}
+                          jarak={item.km}
+                        />
+                        <CardMerchant
+                          //  img
+                          rate={item.rate}
+                          merchantName={item.nama}
+                          kategori={item.kategori}
+                          location={item.location}
+                          jarak={item.km}
+                        />
+                      </View>
+                    );
+                  })}
+                </View>
+              </TabView.Item>
+            </ScrollView>
           </TabView>
         </View>
       </View>

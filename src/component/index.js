@@ -7,6 +7,7 @@ import CardProduct from "./CardProduct";
 import HeaderWithSearchbar from "./HeaderWithSearchbar";
 import StoreInfo from "./StoreInfo";
 import SimpleHeader from "./SimpleHeader";
+import CardMerchant from "./CardMerchant";
 
 export {
   Kategori,
@@ -18,4 +19,5 @@ export {
   HeaderWithSearchbar,
   StoreInfo,
   SimpleHeader,
+  CardMerchant,
 };

@@ -11,6 +11,7 @@ import {
   Perternakan,
   Seafood,
   UMKM,
+  ArrowRedIcon,
 } from '../../assets'
 import {View,Text, Image, StyleSheet,ScrollView} from 'react-native';
 import colors from '../../assets/colors';
@@ -76,17 +77,21 @@ const Kategori = () => {
  ]
  return (
    <View style={s.container}>
-     <ScrollView>
-       <Image source={list[2].img} />
+     <ScrollView horizontal>
        {list.map((item, index) => {
          return (
            <View style={s.card} key={index}>
-             <Image source={item.img} />
-             <Text>{item.name}</Text>
+             <Image source={item.img} style={s.img} />
+             <Text style={s.name}>{item.name}</Text>
            </View>
          );
        })}
      </ScrollView>
+
+     <View style={{ display: "flex", flexDirection: "row-reverse" }}>
+       <Image source={ArrowRedIcon} style={{width:30, height:30}}/>
+       <Text style={{marginTop:5,color:colors.RED_MAIN,fontWeight:'bold'}}>Geser</Text>
+     </View>
    </View>
  );
 }
@@ -94,12 +99,25 @@ export default Kategori;
 const s = StyleSheet.create({
   container: {
     backgroundColor: colors.PINK,
-    width: "auto",
-    height: 100,
+    width: "100%",
+    height: 170,
+    padding:10,
   },
   card: {
-    width:50,
-    height:50,
+    width:100,
+    height:120,
     backgroundColor: colors.WHITE,
+    marginHorizontal:5,
+    borderRadius:15
   },
+  img:{
+    width : 70,
+    height:70,
+    marginTop:10,
+    alignSelf:'center'
+  },
+  name:{
+    textAlign:'center',
+    color:colors.GREY,
+  }
 });

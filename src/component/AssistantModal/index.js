@@ -1,26 +1,52 @@
 import React, { useState } from "react";
 import { Alert, Modal, StyleSheet, Text, Image,Pressable, View, TouchableOpacity } from "react-native";
-import { AssistantModalImg, QuestIcon} from '../../assets';
+import { AssistantModalImg, AssistantSad, QuestIcon } from "../../assets";
 import colors from "../../assets/colors";
 
 const AssistantModal = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <View>
-      <Modal animationType="slide" transparent={true} visible={props.visible? props.visible : modalVisible}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={props.visible ? props.visible : modalVisible}
+      >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <View style={{ display: "flex", flexDirection: "row" }}>
-              <Text style={styles.titleModal}>Info Untuk Kamu</Text>
+              <Text style={styles.titleModal}>
+                {props.confirm
+                  ? "Apa Kamu Yakin Ingin Keluar ?"
+                  : "Info Untuk Kamu"}
+              </Text>
               <Pressable
-                onPress={props.close? props.close :
-                  ()=>setModalVisible(!modalVisible)}
+                onPress={
+                  props.close
+                    ? props.close
+                    : () => setModalVisible(!modalVisible)
+                }
               >
-                <Text style={styles.textClose}>X</Text>
+                <Text
+                  style={props.confirm ? { display: "none" } : styles.textClose}
+                >
+                  X
+                </Text>
               </Pressable>
             </View>
-            <Image source={AssistantModalImg} style={styles.modalImg} />
+            <Image
+              source={props.sadFace ? AssistantSad : AssistantModalImg}
+              style={styles.modalImg}
+            />
             <Text style={styles.modalText}>{props.msg}</Text>
+            <View style={props.confirm ? styles.btnGrup : { display: "none" }}>
+              <TouchableOpacity style={styles.btnOk} onPress={props.onExit}>
+                <Text style={styles.textBtnOk}>Keluar</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.btnNo} onPress={props.onCancel}>
+                <Text style={styles.textBtnNo}>Batal</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </Modal>
@@ -34,7 +60,7 @@ const AssistantModal = (props) => {
         </TouchableOpacity>
         <Text style={styles.TitleText}>{props.title}</Text>
         <TouchableOpacity
-        onPress={props.pressBtn}
+          onPress={props.pressBtn}
           style={
             props.textButton ? styles.serviceTitleBtn : { display: "none" }
           }
@@ -81,10 +107,10 @@ const styles = StyleSheet.create({
     width: "93%",
   },
   modalText: {
-    marginBottom:10,
-    marginHorizontal:10,
-    fontSize:13,
-    color:colors.GREY,
+    marginBottom: 10,
+    marginHorizontal: 10,
+    fontSize: 13,
+    color: colors.GREY,
   },
   modalImg: {
     width: 120,
@@ -124,6 +150,38 @@ const styles = StyleSheet.create({
     fontFamily: "roboto",
     fontWeight: "bold",
     color: colors.RED_MAIN,
+    textAlign: "center",
+  },
+  btnGrup: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
+  btnOk: {
+    backgroundColor: colors.FAILED,
+    width: "40%",
+    height: 50,
+    borderRadius: 15,
+    justifyContent: "center",
+  },
+  textBtnOk: {
+    color: colors.WHITE,
+    fontSize: 17,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  btnNo: {
+    backgroundColor: colors.SUCCESS,
+    width: "40%",
+    height: 50,
+    borderRadius: 15,
+    justifyContent: "center",
+  },
+  textBtnNo: {
+    color: colors.WHITE,
+    fontSize: 17,
+    fontWeight: "bold",
     textAlign: "center",
   },
 });

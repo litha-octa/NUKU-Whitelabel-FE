@@ -1,4 +1,7 @@
 import IconSaldo from './iconSaldo.png'
+
+import RushLine from "./rushLine.png"
+
 // import LeftArrow from './leftArrow.png'
 import Rp from './Rp.png'
 import Notif from './Notif.png'
@@ -116,6 +119,7 @@ import FavoritIconFill from "./favoritFill.png";
 import  AssistantModalImg from './assistantBig.png';
 import StarIcon from './Star.png';
 import DefaultImgMerch from './defaultImgMerch.png';
+import AssistantSad from "./AssistantSedih.png";
 
 import HelpCSIcon from './CS.png';
 import HelpEmailIcon from './EMAIL.png';
@@ -212,6 +216,7 @@ import ByPhoneIcon from './loginBy/nohp.png';
 
 export {
   IconSaldo,
+  RushLine,
   Rp,
   Notif,
   Logo,
@@ -226,6 +231,7 @@ export {
   LeftArrowTail,
   LEDIcon,
   BtnSalinCode,
+  AssistantSad,
 
   // HOME HEADER
   LocationIcon,

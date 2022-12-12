@@ -29,6 +29,8 @@ import axios from "axios";
 
 const Account = ({navigation}) => {
    const isFocused = useIsFocused();
+
+   const [modalVisible, setModalVisible] = useState(false)
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState("");
@@ -228,11 +230,18 @@ const logoutHandler = () => {
               <Image source={ArrowGreyIcon} style={s.listRightImg} />
             </View>
           </View>
-          <TouchableOpacity style={s.logoutBtn} onPress={() => logoutHandler()}>
+          <TouchableOpacity style={s.logoutBtn} onPress={() => setModalVisible(!modalVisible)}>
             <Text style={s.logoutBtnText}>Keluar Akun</Text>
           </TouchableOpacity>
           <Image source={WatermarkBottom} style={s.watermark} />
         </ScrollView>
+        <AssistantModal
+        sadFace
+        confirm
+        visible={modalVisible}
+        onCancel={()=>setModalVisible(!modalVisible)}
+        onExit={logoutHandler}
+        />
       </View>
     );
 }
