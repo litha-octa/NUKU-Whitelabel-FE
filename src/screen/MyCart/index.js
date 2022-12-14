@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -12,10 +12,50 @@ import { LeftArrowTail, LocationRedIcon, RightArrowRed } from "../../assets";
 import colors from "../../assets/colors";
 import { keranjangku } from "../../assets/states";
 import CheckBox from "@react-native-community/checkbox";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { BASE_URL, url } from "../../service";
 
-const MyCart = () => {
+
+
+const MyCart = ({navigation}) => {
     const harga = '200.000'
   const [selectAll, setSelectAll] = useState(false);
+  const [myCart,setMyCart]= useState();
+  const [token, setToken] = useState();
+   const getToken = async () => {
+     try {
+       const value = await AsyncStorage.getItem("token");
+       if (value !== null) {
+         setToken(value);
+         console.log(value);
+         getCartData(value)
+       }
+     } catch (e) {
+       console.log("get Token error : ", e);
+     }
+   };
+
+   const getCartData = (x) =>{
+    axios
+    .get(`${BASE_URL}${url.cart}?page=1&size=5`, {
+      headers: {
+        Authorization: `Bearer ${x}`,
+      },
+    })
+    .then((res)=>{
+      console.log(res.data.data)
+      console.log(res.data.data.products);
+      setMyCart(res.data.data)
+    })
+    .catch((err)=>{
+      console.log(err)
+    })
+   }
+
+   useEffect(() => {
+     getToken();
+   }, []);
   return (
     <View style={{ flex: 1 }}>
       <View style={s.header}>
@@ -36,7 +76,7 @@ const MyCart = () => {
       </View>
       <ScrollView>
         <View style={s.body}>
-          {keranjangku.map((item, index) => {
+          {myCart?.map((item, index) => {
             return (
               <View style={s.card}>
                 <View style={{ display: "flex", flexDirection: "row" }}>
@@ -44,12 +84,18 @@ const MyCart = () => {
                     value={selectAll}
                     onValueChange={(newValue) => setSelectAll(newValue)}
                   />
-                  <View>
-                    <Text style={s.namaToko}>{item.store}</Text>
-                    <Text style={s.location}>{item.location}</Text>
-                  </View>
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate("Merchant", {
+                        uuidStore: item.merchant_uuid,
+                      })
+                    }
+                  >
+                    <Text style={s.namaToko}>{item.merchant_name}</Text>
+                    <Text style={s.location}>{item.merchant_location}</Text>
+                  </TouchableOpacity>
                 </View>
-                {item?.product.map((item, index) => {
+                {item?.products.map((item, index) => {
                   return (
                     <View
                       style={{
@@ -64,8 +110,11 @@ const MyCart = () => {
                       />
                       <Image source={{ uri: item.img }} style={s.productImg} />
                       <View>
-                        <Text style={s.location}>{item.name}</Text>
-                        <Text style={s.namaToko}>Rp.{item.price}</Text>
+                        <Text style={s.location}>{item.product_name}</Text>
+                        <Text style={s.namaToko}>
+                          Rp.{item.cart_product_price} x{" "}
+                          {item.cart_product_quantity} Pcs
+                        </Text>
                       </View>
                     </View>
                   );

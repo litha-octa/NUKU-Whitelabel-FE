@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity,SafeAreaView } from "react-native";
+import { View, Text, Image, Alert, StyleSheet, ScrollView, BackHandler, TouchableOpacity,SafeAreaView } from "react-native";
 import {
   LocationIcon,
   DownArrow,
@@ -87,6 +87,28 @@ useEffect(() => {
     { name: "Toko UMKM" },
   ];
 
+   useEffect(() => {
+    if(isFocused){
+     const backAction = () => {
+       Alert.alert("Keluar", "Apa kamu yakin ingin ingin keluar ?", [
+         { text: "Ya", onPress: () => BackHandler.exitApp() },
+         {
+           text: "Tidak",
+           onPress: () => null,
+           style: "cancel",
+         },
+       ]);
+       return true;
+     };
+
+     const backHandler = BackHandler.addEventListener(
+       "hardwareBackPress",
+       backAction
+     );
+
+     return () => backHandler.remove();
+   }}, [navigation, isFocused]);
+
 
   return (
     <SafeAreaView style={{ marginBottom: 40 }}>
@@ -126,7 +148,7 @@ useEffect(() => {
           </View>
         </View>
 
-        <Kategori />
+        <Kategori toKategoriCenter={()=>navigation.navigate('KategoriCenter')} />
         <View style={styles.body}>
           <AssistantModal
             title="Transportasi & Delivery"

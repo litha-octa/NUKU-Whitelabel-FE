@@ -1,6 +1,7 @@
 import IconSaldo from './iconSaldo.png'
 
 import RushLine from "./rushLine.png"
+import ChatMerchant from './chatMerchant.png'
 
 // import LeftArrow from './leftArrow.png'
 import Rp from './Rp.png'
@@ -52,6 +53,7 @@ import Pertanian from "./iconKategori/Pertanian.png";
 import Perternakan from "./iconKategori/Perternakan.png";
 import Seafood from "./iconKategori/Seafood.png";
 import UMKM from "./iconKategori/UMKM.png";
+import DaerahLain from './iconKategori/DaerahLain.png';
 
 // LAYANAN TRANSPORT DAN PENGIRIMAN
 import BelanjainIcon from "./transport/Belanjain.png";
@@ -215,6 +217,7 @@ import ByPhoneIcon from './loginBy/nohp.png';
 
 
 export {
+  ChatMerchant,
   IconSaldo,
   RushLine,
   Rp,
@@ -260,6 +263,7 @@ export {
   Perternakan,
   Seafood,
   UMKM,
+  DaerahLain,
 
   //LAYANAN TRANSPORT DAN PENGIRIMAN
   BelanjainIcon,

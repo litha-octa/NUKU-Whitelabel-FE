@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
 import colors from "../../assets/colors";
 import {RushLine, StarIcon} from '../../assets'
+import { TouchableOpacity } from "react-native";
 
 const CardMerchant =(props)=>{
 
@@ -17,7 +18,7 @@ const CardMerchant =(props)=>{
      const img =
        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3k6vUpG2bDfVksN11KjPowCOVs5L0kxHwNw&usqp=CAU";
     return (
-      <View style={s.body}>
+      <TouchableOpacity style={s.body} onPress={props.onPress}>
         <View style={{ width: "35%" }}>
           <Image source={{ uri: img }} style={s.img} />
           <View style={s.rateContainer}>
@@ -34,7 +35,7 @@ const CardMerchant =(props)=>{
             <Text style={s.jarak}>{props.jarak}</Text>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
 }
 export default CardMerchant;
@@ -58,7 +59,7 @@ const s = StyleSheet.create({
   },
   merchantName: {
     fontFamily: "roboto",
-    fontSize: 20,
+    fontSize: 17,
     fontWeight: "bold",
     color: colors.BLACK,
     textTransform: "capitalize",

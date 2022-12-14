@@ -28,6 +28,7 @@ import {
   Auth,
   OTP,
   Product,
+  KategoriCenter,
 } from "../screen";
 
 import {
@@ -286,6 +287,11 @@ const Router = ({navigation}) => {
       <Stack.Screen
         name="TopUpRoute"
         component={TopUpRoute}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="KategoriCenter"
+        component={KategoriCenter}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

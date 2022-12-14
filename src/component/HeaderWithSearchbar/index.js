@@ -11,7 +11,7 @@ import colors from "../../assets/colors";
 
 const HeaderWithSearchbar = (props) =>{
   // PROPS LIST :
-  // toMyChart
+  // toMyCart
     return (
       <View style={s.headers}>
         <TouchableOpacity onPress={props.goBack }>

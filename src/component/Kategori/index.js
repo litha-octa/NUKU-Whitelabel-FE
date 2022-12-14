@@ -13,11 +13,18 @@ import {
   UMKM,
   ArrowRedIcon,
 } from '../../assets'
-import {View,Text, Image, StyleSheet,ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+} from "react-native";
 import colors from '../../assets/colors';
 
 
-const Kategori = () => {
+const Kategori = (props) => {
  const list = [
    {
      id: 0,
@@ -80,10 +87,10 @@ const Kategori = () => {
      <ScrollView horizontal>
        {list.map((item, index) => {
          return (
-           <View style={s.card} key={index}>
+           <TouchableOpacity style={s.card} key={index} onPress={index === 0 ? props.toKategoriCenter : null}>
              <Image source={item.img} style={s.img} />
              <Text style={s.name}>{item.name}</Text>
-           </View>
+           </TouchableOpacity>
          );
        })}
      </ScrollView>

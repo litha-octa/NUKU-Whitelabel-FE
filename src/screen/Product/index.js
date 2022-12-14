@@ -5,7 +5,7 @@ import colors from "../../assets/colors";
 import axios from "axios";
 import { CardMerchant, CardProduct, HeaderWithSearchbar } from "../../component";
 
-import { BASE_URL,url } from "../../service";
+import { BASE_URL,url, UUID } from "../../service";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
@@ -13,6 +13,7 @@ const Product =({navigation})=>{
  const [index, setIndex] = useState(0);
   const [token, setToken] = useState();
   const [bestProduct, setBestProduct] = useState();
+  const [merchant, setMerchant] = useState()
 
   const getToken = async () => {
     try {
@@ -21,6 +22,7 @@ const Product =({navigation})=>{
         setToken(value);
         console.log('get Token',value);
         ProductUnggulan(value);
+        listMerchant(value)
       }
     } catch (e) {
       console.log("get Token error : ", e);
@@ -40,14 +42,34 @@ const Product =({navigation})=>{
 
        .catch((err) => console.log("get product error : ", err));
    };
+const listMerchant = (x) => {
+  axios
+    .get(`${BASE_URL}${url.merchant}?page=1&size=20&local_uuid=${UUID}`, {
+      headers: {
+        Authorization: `Bearer ${x}`,
+      },
+    })
+    .then((res) => {
+      console.log('merchant list : ' , res.data.data);
+      setMerchant(res.data.data)
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+
+
    useEffect(() => {
      getToken();
      if(token){
      ProductUnggulan(token);
+     listMerchant(token)
 
      }
    }, []);
 
+   
    const tokoList = [
      {
        nama: "Toko Makmur Fashion",
@@ -179,27 +201,20 @@ const Product =({navigation})=>{
                     marginBottom:'35%',
                   }}
                 >
-                  {tokoList.map((item, index) => {
-                    return (
-                      <View >
-                        <CardMerchant
-                          //  img
-                          rate={item.rate}
-                          merchantName={item.nama}
-                          kategori={item.kategori}
-                          location={item.location}
-                          jarak={item.km}
-                        />
-                        <CardMerchant
-                          //  img
-                          rate={item.rate}
-                          merchantName={item.nama}
-                          kategori={item.kategori}
-                          location={item.location}
-                          jarak={item.km}
-                        />
-                      </View>
-                    );
+                  {merchant?.map((item, index) => {
+                      return (
+                        <View>
+                          <CardMerchant
+                            //  img
+                            // rate={item.rate}
+                            onPress={()=>{navigation.navigate("Merchant", { uuidStore : item.uuid});}}
+                            merchantName={item.name}
+                            kategori={item.slogan}
+                            // location={item.location}
+                            // jarak={item.km}
+                          />
+                        </View>
+                      );
                   })}
                 </View>
               </TabView.Item>

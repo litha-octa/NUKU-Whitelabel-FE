@@ -2,7 +2,12 @@ import React, {useEffect, useState } from "react";
 import {View,Text, Image,StyleSheet, TouchableOpacity,SafeAreaView, ScrollView} from 'react-native'
 import colors from "../../assets/colors";
 import { HeaderWithSearchbar , StoreInfo} from "../../component";
-import { FavoritIcon, FavoritIconFill, StarIcon } from "../../assets";
+import {
+  FavoritIcon,
+  FavoritIconFill,
+  StarIcon,
+  ChatMerchant,
+} from "../../assets";
 import axios from "axios";
 import { BASE_URL, url } from "../../service";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -62,11 +67,37 @@ const ProductDetail = (x,y) => {
    getToken();
  }, []);
 
+ const addToCart =()=>{
+if (product.stock > product.minimum_buy){
+axios({
+  method: "POST",
+  url: `${BASE_URL}${url.cart}`,
+  headers: {
+    Authorization: `Bearer ${token}`,
+    "Access-Control-Allow-Origin": "*",
+  },
+  data: {
+    product_uuid: uuid,
+    product_variant_uuid: null,
+    quantity: product?.minimum_buy,
+  },
+})
+  .then((res) => {
+    console.log(res.data);
+    if (res.data.status === 200) {
+      alert("barang berhasil di tambahkan ke keranjang");
+    }
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+}else{return}
+ }
 
 
     return (
-      <SafeAreaView>
-        <HeaderWithSearchbar />
+      <SafeAreaView style={{ height: "100%" }}>
+        <HeaderWithSearchbar goBack={() => navigation.goBack()} toMyCart={()=> navigation.navigate('MyCart')} />
         <ScrollView>
           <View style={s.body}>
             <Image source={{ uri: "null" }} style={s.image} />
@@ -102,10 +133,14 @@ const ProductDetail = (x,y) => {
             </View>
           </View>
           <StoreInfo
-          namaToko={merchant}
-          status="Online"
-          location={location}
-          onPress={()=>navigation.navigate('Merchant',{uuidStore : product?.merchant_uuid})}
+            namaToko={merchant}
+            status="Online"
+            location={location}
+            onPress={() =>
+              navigation.navigate("Merchant", {
+                uuidStore: product?.merchant_uuid,
+              })
+            }
           />
           <View style={s.deliveryDetail}>
             <Text style={s.ongkir}>Ongkir 20.000</Text>
@@ -137,6 +172,17 @@ const ProductDetail = (x,y) => {
             </View>
           </View>
         </ScrollView>
+        <View style={s.bottomBtn}>
+          <TouchableOpacity style={s.bottomBtnChat}>
+            <Image source={ChatMerchant} style={s.bottomChatIcon} />
+          </TouchableOpacity>
+          <TouchableOpacity style={s.bottomBtn1} onPress={addToCart}>
+            <Text style={s.bottomBtnText1}>Masukan Keranjang</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={s.bottomBtn2}>
+            <Text style={s.bottomBtnText2}>Beli Langsung</Text>
+          </TouchableOpacity>
+        </View>
       </SafeAreaView>
     );
  }
@@ -147,8 +193,6 @@ const ProductDetail = (x,y) => {
      height: "100%",
      backgroundColor: colors.WHITE,
      paddingHorizontal: "5%",
-     //  borderBottomColor: colors.PALE_GREY,
-     //  borderBottomWidth: 2,
      flex: 1,
    },
    image: {
@@ -196,7 +240,6 @@ const ProductDetail = (x,y) => {
      width: "100%",
      paddingHorizontal: "5%",
      paddingVertical: 10,
-     marginBottom: "20%",
    },
    ongkir: {
      fontSize: 20,
@@ -246,5 +289,58 @@ const ProductDetail = (x,y) => {
      fontWeight: "bold",
      width: "50%",
      marginVertical: 10,
+   },
+   bottomBtn: {
+     backgroundColor: colors.WHITE,
+     elevation: 4,
+     display: "flex",
+     flexDirection: "row",
+     justifyContent: "space-around",
+     paddingHorizontal: "2%",
+     height: "auto",
+     paddingVertical: 5,
+   },
+   bottomBtn1: {
+     backgroundColor: colors.WHITE,
+     borderColor: colors.RED_MAIN,
+     borderWidth: 3,
+     paddingVertical: 10,
+     paddingHorizontal: 7,
+     width: "35%",
+     borderRadius: 10,
+   },
+   bottomBtn2: {
+     backgroundColor: colors.RED_MAIN,
+     paddingVertical: 10,
+     paddingHorizontal: 7,
+     width: "35%",
+     borderRadius: 10,
+   },
+   bottomBtnText1: {
+     fontFamily: "roboto",
+     fontWeight: "bold",
+     color: colors.RED_MAIN,
+     textAlignVertical: "center",
+     textAlign: "center",
+     fontSize: 13,
+   },
+   bottomBtnText2: {
+     fontFamily: "roboto",
+     fontWeight: "bold",
+     color: colors.WHITE,
+     textAlign: "center",
+     fontSize: 13,
+   },
+   bottomBtnChat:{
+    borderColor:colors.PALE_GREY,
+    borderWidth:3,
+    borderRadius:10,
+    width:'15%',
+   },
+   bottomChatIcon:{
+    width:30,
+    height:30,
+    alignSelf:'center',
+    marginTop:3,
    },
  });

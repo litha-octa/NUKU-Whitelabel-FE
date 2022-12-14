@@ -35,6 +35,8 @@ import PaymentMethod from './TopUp/PaymentMethod'
 import Product from './Product';
 import ProductDetail from "./Product/ProductDetail";
 
+
+import KategoriCenter from './KategoriCenter'
 export {
   Payment,
   Splash,
@@ -65,4 +67,5 @@ export {
   Product,
   Merchant,
   ProductDetail,
+  KategoriCenter,
 };

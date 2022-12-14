@@ -10,7 +10,6 @@ import {
 } from "../../assets";
 import colors from "../../assets/colors";
 import { CardProduct } from "../../component";
-import { product } from "../../assets/states";
 import axios from "axios";
 import { BASE_URL,url } from "../../service";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -22,7 +21,7 @@ const Merchant =({navigation, route})=>{
     console.log(uuidStore)
     const [merchant, setMerchant] = useState()
     const [allProduct, setAllProduct] = useState()
-    const [productCount, setTotal] = useState();
+    const [total, setTotal] = useState(0);
 
 
     const getToken = async () => {
@@ -60,7 +59,9 @@ const AllProduct = (x, y) => {
       }
     })
     .then((res) => {
-      setTotal(res.data.data.totalData)
+      console.log('etalase: ',res.data.data.data);
+      console.log(res.data.data.totalData);
+      setTotal(res.data.data.totalData);
       setAllProduct(res.data.data.data);
     })
     .catch((err) => {
@@ -126,7 +127,7 @@ const AllProduct = (x, y) => {
             </View>
             <View style={s.productContainer}>
               <Text style={s.productContainerTextRed}>Semua Produk</Text>
-              <Text style={s.productContainerText}>{productCount} Produk</Text>
+              <Text style={s.productContainerText}>{total} Produk</Text>
               <View
                 style={{
                   width: "100%",
@@ -140,7 +141,7 @@ const AllProduct = (x, y) => {
                   allProduct?.map((item)=>{
                     return (
                       <CardProduct
-                        img={{ uri: {} }}
+                      onPress={()=>navigation.navigate('ProductDetail', {uuid:item.uuid})}
                         nameProduct={item.name}
                         price={item.price}
                       />
