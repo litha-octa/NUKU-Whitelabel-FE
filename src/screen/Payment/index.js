@@ -21,6 +21,7 @@ import {
   StatusMin,
   StatusPlus,
   Notif,
+  ArrowWhiteIcon,
 } from "../../assets";
 
 const Payment = () => {
@@ -33,15 +34,20 @@ const Payment = () => {
           <View style={styles.header}>
             <View style={styles.headerLine1}>
               <Image
-                source={LeftArrow}
-                style={{ width: 20, height: 60, marginHorizontal: 20 }}
+                source={ArrowWhiteIcon}
+                style={{
+                  width: 20,
+                  height: 40,
+                  marginHorizontal: 10,
+                  transform: [{ rotate: "180deg" }],
+                }}
               />
               <Image
                 source={IconSaldo}
                 style={{
-                  width: 30,
-                  height: 30,
-                  marginTop: 15,
+                  width: 25,
+                  height: 25,
+                  marginTop: 5,
                   marginHorizontal: 10,
                 }}
               />

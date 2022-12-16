@@ -8,60 +8,141 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import { LeftArrowTail, LocationRedIcon, RightArrowRed } from "../../assets";
+import {
+  MinBtnGrey,
+  MinBtnRed,
+  PlusBtnGrey,
+  PlusBtnRed,
+  DeleteBtnRed,
+  LeftArrowTail,
+  LocationRedIcon,
+  RightArrowRed,
+} from "../../assets";
 import colors from "../../assets/colors";
-import { keranjangku } from "../../assets/states";
 import CheckBox from "@react-native-community/checkbox";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { BASE_URL, url } from "../../service";
+import { SimpleHeader } from "../../component";
 
-
-
-const MyCart = ({navigation}) => {
-    const harga = '200.000'
+const MyCart = ({ navigation }) => {
+  const harga = "200.000";
   const [selectAll, setSelectAll] = useState(false);
-  const [myCart,setMyCart]= useState();
+  const [myCart, setMyCart] = useState();
   const [token, setToken] = useState();
-   const getToken = async () => {
-     try {
-       const value = await AsyncStorage.getItem("token");
-       if (value !== null) {
-         setToken(value);
-         console.log(value);
-         getCartData(value)
-       }
-     } catch (e) {
-       console.log("get Token error : ", e);
-     }
-   };
 
-   const getCartData = (x) =>{
+  const getToken = async () => {
+    try {
+      const value = await AsyncStorage.getItem("token");
+      if (value !== null) {
+        setToken(value);
+        console.log(value);
+        getCartData(value);
+      }
+    } catch (e) {
+      console.log("get Token error : ", e);
+    }
+  };
+
+  const getCartData = (x) => {
     axios
-    .get(`${BASE_URL}${url.cart}?page=1&size=5`, {
-      headers: {
-        Authorization: `Bearer ${x}`,
-      },
-    })
-    .then((res)=>{
-      console.log(res.data.data)
-      console.log(res.data.data.products);
-      setMyCart(res.data.data)
-    })
-    .catch((err)=>{
-      console.log(err)
-    })
-   }
+      .get(`${BASE_URL}${url.cart}?page=1&size=5`, {
+        headers: {
+          Authorization: `Bearer ${x}`,
+        },
+      })
+      .then((res) => {
+        console.log(res.data.data);
+        console.log(res.data.data.products);
+        setMyCart(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
-   useEffect(() => {
-     getToken();
-   }, []);
+  const updateQuantity = (x, y, z) => {
+    // let i = x;
+    // let s = x;
+
+    if (y === "up") {
+      axios({
+        method: "PUT",
+        url: `${BASE_URL}${url.cart}-product/${z}`,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          Authorization: `Bearer ${token}`,
+        },
+        data: {
+          quantity: x+1,
+          notes: "HUHU",
+        },
+      })
+        .then((res) => {
+          console.log(res);
+          getCartData(token)
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else{
+      
+      
+        axios({
+          method: "PUT",
+          url: `${BASE_URL}${url.cart}-product/${z}`,
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            Authorization: `Bearer ${token}`,
+          },
+          data: {
+            quantity: x-1,
+            notes: "HUHU",
+          },
+        })
+          .then((res) => {
+            console.log(res);
+          getCartData(token);
+
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+  };
+
+  const deleteCartItem=(x)=>{
+    axios
+    // ({
+    //   method: "DELETE",
+    //   url: `${BASE_URL}${url.cart}-product/${x}`,
+    //   headers: {
+    //     "Access-Control-Allow-Origin": "*",
+    //     Authorization: `Bearer ${token}`,
+    //   },
+    // })
+      .delete(`${BASE_URL}${url.cart}-product/${x}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        getCartData(token);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  useEffect(() => {
+    getToken();
+  }, []);
   return (
     <View style={{ flex: 1 }}>
-      <View style={s.header}>
-        <Image source={LeftArrowTail} style={s.iconHeader} />
-        <Text style={s.textHeader}>KeranjangKu</Text>
-      </View>
+      <SimpleHeader title='KeranjangKu'
+      onBack={()=>navigation.goBack()}
+      />
       <View style={s.header}>
         <CheckBox
           disabled={false}
@@ -79,7 +160,13 @@ const MyCart = ({navigation}) => {
           {myCart?.map((item, index) => {
             return (
               <View style={s.card}>
-                <View style={{ display: "flex", flexDirection: "row" }}>
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    width: "100%",
+                  }}
+                >
                   <CheckBox
                     value={selectAll}
                     onValueChange={(newValue) => setSelectAll(newValue)}
@@ -102,6 +189,7 @@ const MyCart = ({navigation}) => {
                         display: "flex",
                         flexDirection: "row",
                         marginVertical: 10,
+                        width: "100%",
                       }}
                     >
                       <CheckBox
@@ -109,30 +197,81 @@ const MyCart = ({navigation}) => {
                         onValueChange={(newValue) => setSelectAll(newValue)}
                       />
                       <Image source={{ uri: item.img }} style={s.productImg} />
-                      <View>
+                      <View style={{ width: "70%" }}>
                         <Text style={s.location}>{item.product_name}</Text>
                         <Text style={s.namaToko}>
-                          Rp.{item.cart_product_price} x{" "}
-                          {item.cart_product_quantity} Pcs
+                          Rp.{item.cart_product_price}
                         </Text>
+                        <View style={s.quantityCon}>
+                          <TouchableOpacity
+                            onPress={() =>
+                              updateQuantity(
+                                item.cart_product_quantity,
+                                "up",
+                                item.cart_product_uuid
+                              )
+                            }
+                          >
+                            <Image
+                              style={s.quantityBtn}
+                              source={
+                                item.cart_product_quantity > 100
+                                  ? PlusBtnGrey
+                                  : PlusBtnRed
+                              }
+                            />
+                          </TouchableOpacity>
+                          <Text style={s.quantityText}>
+                            {item.cart_product_quantity}
+                          </Text>
+                          <TouchableOpacity
+                            disabled={
+                              item.cart_product_quantity === 1 ? true : false
+                            }
+                            onPress={() =>
+                              updateQuantity(
+                                item.cart_product_quantity,
+                                "down",
+                                item.cart_product_uuid
+                              )
+                            }
+                          >
+                            <Image
+                              style={s.quantityBtn}
+                              source={
+                                item.cart_product_quantity === 1
+                                  ? MinBtnGrey
+                                  : MinBtnRed
+                              }
+                            />
+                          </TouchableOpacity>
+                          <TouchableOpacity
+                            onPress={() => {deleteCartItem(item.cart_product_uuid)}}
+                          >
+                            <Image source={DeleteBtnRed} style={s.btnDelete} />
+                          </TouchableOpacity>
+                        </View>
                       </View>
+                      
                     </View>
                   );
                 })}
+                
               </View>
             );
           })}
         </View>
       </ScrollView>
       <View style={s.fixedFooter}>
-        <View style={{ width: "60%"}}>
+        <View style={{ width: "60%" }}>
           <Text style={s.totalHarga}>Total Harga</Text>
           <Text style={s.totalHarga2}>Rp. {harga}</Text>
         </View>
         <TouchableOpacity style={s.btnBeli}>
-            <Text style={s.btnBeliText}> Beli ({keranjangku.length})</Text>
+          <Text style={s.btnBeliText}> Beli ({myCart?.length})</Text>
         </TouchableOpacity>
       </View>
+      
     </View>
   );
 };
@@ -203,6 +342,7 @@ const s = StyleSheet.create({
     fontSize: 15,
     fontFamily: "roboto",
     fontWeight: "bold",
+    width:'100%'
   },
   location: {
     fontFamily: "roboto",
@@ -251,4 +391,31 @@ const s = StyleSheet.create({
     fontSize: 19,
     fontWeight: "bold",
   },
+  quantityCon: {
+    display: "flex",
+    flexDirection: "row",
+    width:'100%',
+    display:'flex',
+    flexDirection:'row-reverse'
+  },
+  quantityBtn: {
+    width: 30,
+    height: 30,
+    borderRadius: 5,
+    padding: 3,
+    marginHorizontal: 5,
+  },
+  quantityText:{
+    fontFamily:'roboto',
+    fontSize:17,
+    fontWeight:'bold',
+    paddingBottom:2,
+    borderBottomColor:colors.PALE_GREY,
+    borderBottomWidth:2,
+  },
+  btnDelete:{
+    width:30,
+    height:30,
+    marginHorizontal:10,
+  }
 });

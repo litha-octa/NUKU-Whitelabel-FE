@@ -215,6 +215,13 @@ import ByFBIcon from './loginBy/fb.png'
 import ByGoogleIcon from "./loginBy/google.png";
 import ByPhoneIcon from './loginBy/nohp.png';
 
+// HALAMAN MY CART
+import MinBtnRed from "./minBtnRed.png";
+import PlusBtnRed from './plusBtnRed.png'
+import MinBtnGrey from './minBtnGrey.png'
+import PlusBtnGrey from "./plusBtnGrey.png"
+import DeleteBtnRed from './deleteBtnRed.png'
+
 
 export {
   ChatMerchant,
@@ -424,4 +431,10 @@ export {
   ByFBIcon,
   ByGoogleIcon,
   ByPhoneIcon,
+
+  MinBtnGrey,
+  MinBtnRed,
+  PlusBtnGrey,
+  PlusBtnRed,
+  DeleteBtnRed,
 };

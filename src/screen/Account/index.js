@@ -97,11 +97,25 @@ const logoutHandler = () => {
       if(res.data.status === 200 && res.data.message === 'success'){
         rmToken()
         Alert.alert('Anda telah keluar')
+        setModalVisible(!modalVisible);
         navigation.navigate('LoginRoute')
       }
     })
     .catch((err) => console.log("error log out handler : ", err));
 };
+
+const MyActivity =(props)=>{
+  return (
+    <TouchableOpacity
+      style={s.list}
+      onPress={props.onPress}
+    >
+      <Image source={props.img} style={s.listImg} />
+      <Text style={s.listText}>{props.title}</Text>
+      <Image source={ArrowGreyIcon} style={s.listRightImg} />
+    </TouchableOpacity>
+  );
+}
 
     return (
       <View style={s.body}>
@@ -178,69 +192,73 @@ const logoutHandler = () => {
             </View>
           </View>
           <View>
-            <TouchableOpacity
-              style={s.list}
+            <MyActivity
               onPress={() => navigation.navigate("EditProfile")}
-            >
-              <Image source={ProfilSaya} style={s.listImg} />
-              <Text style={s.listText}>Profil Anda</Text>
-              <Image source={ArrowGreyIcon} style={s.listRightImg} />
-            </TouchableOpacity>
-            <View style={s.list}>
-              <Image source={DompetIcon} style={s.listImg} />
-              <Text style={s.listText}>Dompet</Text>
-              <Image source={ArrowGreyIcon} style={s.listRightImg} />
-            </View>
-            <View style={s.list}>
-              <Image source={AlamatIcon} style={s.listImg} />
-              <Text style={s.listText}>Alamat</Text>
-              <Image source={ArrowGreyIcon} style={s.listRightImg} />
-            </View>
-            <View style={s.list}>
-              <Image source={FavoritIcon} style={s.listImg} />
-              <Text style={s.listText}>Favorit</Text>
-              <Image source={ArrowGreyIcon} style={s.listRightImg} />
-            </View>
-            <View style={s.list}>
-              <Image source={VoucherIcon} style={s.listImg} />
-              <Text style={s.listText}>Voucher</Text>
-              <Image source={ArrowGreyIcon} style={s.listRightImg} />
-            </View>
-            <View style={s.list}>
-              <Image source={RiwayatTransaksi} style={s.listImg} />
-              <Text style={s.listText}>Riwayat Transaksi</Text>
-              <Image source={ArrowGreyIcon} style={s.listRightImg} />
-            </View>
-            <View style={s.list}>
-              <Image source={ModalKerjaIcon} style={s.listImg} />
-              <Text style={s.listText}>Modal Kerja</Text>
-              <Image source={ArrowGreyIcon} style={s.listRightImg} />
-            </View>
-            <TouchableOpacity
-              style={s.list}
+              img={ProfilSaya}
+              title="Profil Anda"
+            />
+            <MyActivity
+              // onPress={() => ()}
+              img={DompetIcon}
+              title="Dompet"
+            />
+            <MyActivity
+              // onPress={() => ()}
+              img={AlamatIcon}
+              title="Alamat"
+            />
+            <MyActivity
+              // onPress={() => ()}
+              img={FavoritIcon}
+              title="Favorit"
+            />
+            <MyActivity
+              // onPress={() => ()}
+              img={VoucherIcon}
+              title="Voucher"
+            />
+            <MyActivity
+              // onPress={() => ()}
+              img={FavoritIcon}
+              title="Favorit"
+            />
+            <MyActivity
+              // onPress={() => ()}
+              img={RiwayatTransaksi}
+              title="Riwayat Transaksi"
+            />
+            <MyActivity
+              // onPress={() => ()}
+              img={ModalKerjaIcon}
+              title="Modal Kerja"
+            />
+            <MyActivity
               onPress={() => navigation.navigate("Settings")}
-            >
-              <Image source={PengaturanIcon} style={s.listImg} />
-              <Text style={s.listText}>Pengaturan</Text>
-              <Image source={ArrowGreyIcon} style={s.listRightImg} />
-            </TouchableOpacity>
-            <View style={s.list}>
-              <Image source={FAQ} style={s.listImg} />
-              <Text style={s.listText}>Ada Yang Mau Ditanyakan ?</Text>
-              <Image source={ArrowGreyIcon} style={s.listRightImg} />
-            </View>
+              img={PengaturanIcon}
+              title="Pengaturan"
+            />
+            <MyActivity
+              // onPress={() => ()}
+              img={FAQ}
+              title="Ada Yang Mau Ditanyakan ?"
+            />
+
+            
           </View>
-          <TouchableOpacity style={s.logoutBtn} onPress={() => setModalVisible(!modalVisible)}>
+          <TouchableOpacity
+            style={s.logoutBtn}
+            onPress={() => setModalVisible(!modalVisible)}
+          >
             <Text style={s.logoutBtnText}>Keluar Akun</Text>
           </TouchableOpacity>
           <Image source={WatermarkBottom} style={s.watermark} />
         </ScrollView>
         <AssistantModal
-        sadFace
-        confirm
-        visible={modalVisible}
-        onCancel={()=>setModalVisible(!modalVisible)}
-        onExit={logoutHandler}
+          sadFace
+          confirm="Apa Kamu Yakin Ingin Keluar ?"
+          visible={modalVisible}
+          onCancel={() => setModalVisible(!modalVisible)}
+          onOk={logoutHandler}
         />
       </View>
     );
@@ -281,7 +299,7 @@ const s = StyleSheet.create({
     fontFamily: "roboto",
     fontSize: 20,
     fontWeight: "bold",
-    textTransform:'capitalize',
+    textTransform: "capitalize",
     color: colors.BLACK,
   },
   phone: {
@@ -366,9 +384,9 @@ const s = StyleSheet.create({
     borderRadius: 15,
   },
   cardImg: {
-    width: '100%',
+    width: "100%",
     height: 80,
-    resizeMode:'contain',
+    resizeMode: "contain",
     alignSelf: "center",
   },
 
@@ -379,17 +397,16 @@ const s = StyleSheet.create({
     borderBottomWidth: 1,
     width: "100%",
     marginVertical: 15,
+    paddingHorizontal: "4%",
   },
   listImg: {
     width: 30,
     height: 30,
-    marginHorizontal: "2%",
     marginBottom: 5,
   },
   listRightImg: {
-    width: 20,
-    height: 20,
-    marginHorizontal: "2%",
+    width: 25,
+    height: 25,
   },
   listText: {
     fontFamily: "roboto",
@@ -397,28 +414,29 @@ const s = StyleSheet.create({
     color: colors.GREY,
     fontWeight: "bold",
     width: "80%",
+    paddingLeft:'2%',
   },
   logoutBtn: {
     backgroundColor: "#FC2C2C",
-    width :'90%',
-    marginHorizontal:'5%',
-    marginVertical:20,
-    borderRadius:10,
-    padding:10,
-    height:60,
+    width: "90%",
+    marginHorizontal: "5%",
+    marginVertical: 20,
+    borderRadius: 10,
+    padding: 10,
+    height: 60,
   },
-  logoutBtnText:{
-    color:colors.WHITE,
-    textAlign:'center',
-    marginTop:10,
-    fontSize:18,
-    fontWeight:'bold',
+  logoutBtnText: {
+    color: colors.WHITE,
+    textAlign: "center",
+    marginTop: 10,
+    fontSize: 18,
+    fontWeight: "bold",
   },
-  watermark:{
-    marginHorizontal:'35%',
-    marginBottom:'15%',
-    width:'30%',
-    height:50,
-    resizeMode:'contain',
-  }
+  watermark: {
+    marginHorizontal: "35%",
+    marginBottom: "15%",
+    width: "30%",
+    height: 50,
+    resizeMode: "contain",
+  },
 });

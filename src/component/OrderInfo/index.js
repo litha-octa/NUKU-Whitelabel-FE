@@ -6,12 +6,14 @@ const OrderInfo = (props) => {
     return (
       <View style={s.card}>
         <View style={s.section}>
-          <Image source={{ uri: props.img }} style={s.img} />
-          <View>
+          <View style={{ width: "15%" }}>
+            <Image source={{ uri: props.img }} style={s.img} />
+          </View>
+          <View style={{ width: "60%" }}>
             <Text style={s.itemName}>{props.itemName}</Text>
             <Text style={s.total}>{props.count} Barang</Text>
           </View>
-          <View>
+          <View style={{ width: "25%" }}>
             <Text style={props.styleStatus ? props.styleStatus : s.statusOk}>
               {props.status}
             </Text>
@@ -19,13 +21,15 @@ const OrderInfo = (props) => {
           </View>
         </View>
         <View style={s.section2}>
-          <View>
+          <View style={{ width: "65%"}}>
             <Text style={s.total}>Total Belanja</Text>
             <Text style={s.itemName}>RP{props.price}</Text>
           </View>
-          <TouchableOpacity style={s.btn}>
-            <Text style={s.btnText}>Beli Lagi</Text>
-          </TouchableOpacity>
+          <View style={{ width: "35%" }}>
+            <TouchableOpacity style={s.btn}>
+              <Text style={s.btnText}>Beli Lagi</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     );
@@ -47,6 +51,7 @@ const s = StyleSheet.create({
   section: {
     display: "flex",
     flexDirection: "row",
+    width: "100%",
   },
   section2: {
     marginVertical: 10,
@@ -54,10 +59,12 @@ const s = StyleSheet.create({
     borderTopWidth: 1,
     display: "flex",
     flexDirection: "row",
+    width: "100%",
   },
   img: {
-    width: 50,
-    height: 50,
+    width: '100%',
+    height: 60,
+    resizeMode:'contain',
     borderRadius: 10,
     marginRight: 10,
   },
@@ -65,7 +72,6 @@ const s = StyleSheet.create({
     fontFamily: "roboto",
     fontWeight: "bold",
     fontSize: 18,
-    width: 210,
   },
   total: {
     fontSize: 12,
@@ -84,16 +90,15 @@ const s = StyleSheet.create({
   btn: {
     backgroundColor: colors.SUCCESS,
     padding: 5,
-    width: 120,
+    width: '100%',
     height: 30,
     marginTop: 10,
-    marginLeft: 15,
     borderRadius: 10,
   },
   btnText: {
     color: colors.WHITE,
-    textAlign:'center',
-    fontFamily:'roboto',
-    fontSize:15,
+    textAlign: "center",
+    fontFamily: "roboto",
+    fontSize: 15,
   },
 });

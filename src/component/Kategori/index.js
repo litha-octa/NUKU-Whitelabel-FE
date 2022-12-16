@@ -112,14 +112,14 @@ const s = StyleSheet.create({
   },
   card: {
     width:100,
-    height:120,
+    height:100,
     backgroundColor: colors.WHITE,
     marginHorizontal:5,
     borderRadius:15
   },
   img:{
-    width : 70,
-    height:70,
+    width : 50,
+    height:50,
     marginTop:10,
     alignSelf:'center'
   },

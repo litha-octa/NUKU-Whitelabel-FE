@@ -19,11 +19,21 @@ import {
   BannerVacation,
   RightArrowRed,
   StoreIcon,
+  ArrowGreyIcon,
+  ArrowRedIcon,
 } from "../../assets";
 import colors from "../../assets/colors";
-import {SaldoInfo, Kategori,CardProduct, Assistant, AssistantModal } from "../../component";
+import { 
+      SaldoInfo,
+      Kategori,
+      CardProduct,
+      Assistant,
+      AssistantModal,
+      TiketCenter,
+      CardMerchant,
+    } from "../../component";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { url, BASE_URL } from "../../service";
+import { url, BASE_URL, UUID } from "../../service";
 import axios from "axios";
 import { useIsFocused } from "@react-navigation/native";
 
@@ -33,6 +43,9 @@ import { useIsFocused } from "@react-navigation/native";
 const Home = ({navigation, route}) => {
    const isFocused = useIsFocused();
   const [bestProduct, setBestProduct] = useState();
+  const [storeList , setStoreList] = useState()
+  const [bestStore, setBestStore] = useState()
+
 
   const [token, setToken] = useState();
   const getToken = async () => {
@@ -41,8 +54,10 @@ const Home = ({navigation, route}) => {
       if (value !== null) {
         setToken(value);
         console.log(value)
-        getUserData(value)
         ProductUnggulan(value)
+        getOfficialStore(value, 3);
+        getOfficialStore(value, 20)
+
     }} catch (e) {
       console.log('get Token error : ', e);
     }
@@ -50,16 +65,16 @@ const Home = ({navigation, route}) => {
 
   
 
-  const getUserData =(x)=>{
-    axios.get(`${BASE_URL}${url.auth.getProfile}`
-      , {
-      headers: {
-        'Authorization': `Bearer ${x}`,
-      },
-    })
-    .then((res)=>console.log('get user data : ',  res.data))
-    .catch((err)=>console.log('get user data error : ',err))
-  }
+  // const getUserData =(x)=>{
+  //   axios.get(`${BASE_URL}${url.auth.getProfile}`
+  //     , {
+  //     headers: {
+  //       'Authorization': `Bearer ${x}`,
+  //     },
+  //   })
+  //   .then((res)=>console.log('get user data : ',  res.data))
+  //   .catch((err)=>console.log('get user data error : ',err))
+  // }
 
   const ProductUnggulan =(x)=>{
     axios 
@@ -77,15 +92,30 @@ const Home = ({navigation, route}) => {
     .catch((err)=>console.log('get product error : ',err))
   };
 
+  const getOfficialStore = (x, y) => {
+    axios
+    .get(`${BASE_URL}${url.merchant}?page=1&size=${y}&local_uuid=${UUID}`, {
+      headers: {
+        Authorization: `Bearer ${x}`,
+      },
+    })
+    .then((res) => {
+      console.log('merchant list : ' , res.data.data);
+      if(y === 3){
+        setBestStore(res.data.data)
+      }else{
+        setStoreList(res.data.data);
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 useEffect(() => {
   getToken();
 }, []);
   const locationName = "Kantor Nifarro Park";
-  const storeList = [
-    { name: "Zarara Official" },
-    { name: "Oleh-Oleh Indonesia" },
-    { name: "Toko UMKM" },
-  ];
 
    useEffect(() => {
     if(isFocused){
@@ -109,6 +139,21 @@ useEffect(() => {
      return () => backHandler.remove();
    }}, [navigation, isFocused]);
 
+   const DigitalProduct = (props) =>{
+return (
+  <TouchableOpacity style={styles.cardDigitalProduct} onPress={props.onPress}>
+    <Image
+      source={props.img}
+      style={props.arrow ? { display: "none" } : styles.iconDigitalService}
+    />
+    <Text style={styles.textCardDigProd}>{props.title}</Text>
+    <Image
+      source={ArrowGreyIcon}
+      style={props.arrow ? { width: 25, height: 25 } : { display: "none" }}
+    />
+  </TouchableOpacity>
+);
+   }
 
   return (
     <SafeAreaView style={{ marginBottom: 40 }}>
@@ -139,16 +184,7 @@ useEffect(() => {
             msg='untuk mengetahui fitur apa aja yang ada di aplikasi, kamu bisa tekan
           icon " ? " agar tau lebih detail.'
           />
-          <View style={{ marginVertical: 10 }}>
-            <AssistantModal
-              title="Marketplace Lokal"
-              textButton="Lihat Daerah Lainnya"
-              msg="di fitur marketplace lokal ini kamu bisa membeli produk-produk sesuai dengan kategorinya, dan juga asli dari UMKM itu sendiri sesuai komoditasnya masing-masing."
-            />
-          </View>
         </View>
-
-        <Kategori toKategoriCenter={()=>navigation.navigate('KategoriCenter')} />
         <View style={styles.body}>
           <AssistantModal
             title="Transportasi & Delivery"
@@ -176,31 +212,28 @@ useEffect(() => {
           </TouchableOpacity>
         </View>
         <View style={styles.body}>
-          <View style={{ marginVertical: 10 }}>
-            <AssistantModal
-              title="Bayar Tagihan & Produk Digital"
-              msg="di fitur marketplace lokal ini kamu bisa membeli produk-produk sesuai dengan kategorinya, dan juga asli dari UMKM itu sendiri sesuai komoditasnya masing-masing."
-            />
-          </View>
+          <AssistantModal
+            title="Marketplace Lokal"
+            textButton="Lihat Daerah Lainnya"
+            msg="di fitur marketplace lokal ini kamu bisa membeli produk-produk sesuai dengan kategorinya, dan juga asli dari UMKM itu sendiri sesuai komoditasnya masing-masing."
+          />
+        </View>
+
+        <Kategori
+          toKategoriCenter={() => navigation.navigate("KategoriCenter")}
+        />
+
+        <View style={styles.body}>
+          <AssistantModal
+            title="Bayar Tagihan & Produk Digital"
+            msg="di fitur marketplace lokal ini kamu bisa membeli produk-produk sesuai dengan kategorinya, dan juga asli dari UMKM itu sendiri sesuai komoditasnya masing-masing."
+          />
         </View>
         <View style={styles.pinkContainer}>
-          <TouchableOpacity style={styles.cardDigitalProduct}>
-            <Image source={PulsaIcon} style={styles.iconDigitalService} />
-            <Text style={styles.textCardDigProd}>Pulsa</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.cardDigitalProduct}>
-            <Image source={KuotaIcon} style={styles.iconDigitalService} />
-            <Text style={styles.textCardDigProd}>Paket Data</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.cardDigitalProduct}>
-            <Image source={ListrikIcon} style={styles.iconDigitalService} />
-            <Text style={styles.textCardDigProd}>PLN</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.cardDigitalProduct}>
-            <Text style={styles.textCardDigProd}>Lainnya</Text>
-            <Image source={RightArrow} style={styles.iconDigitalService} />
-          </TouchableOpacity>
+          <DigitalProduct img={PulsaIcon} title="Pulsa" />
+          <DigitalProduct img={KuotaIcon} title="Paket Data" />
+          <DigitalProduct img={ListrikIcon} title="PLN" />
+          <DigitalProduct arrow title="Lainnya" onPress={()=>navigation.navigate('Payment')}/>
         </View>
         <View style={styles.body}>
           <Image source={BannerMini} style={styles.bannerMini} />
@@ -216,13 +249,17 @@ useEffect(() => {
               style={{
                 display: "flex",
                 flexDirection: "row",
+                width: "100%",
               }}
             >
               {bestProduct?.map((item, index) => {
                 return (
                   <CardProduct
+                    key={item.uuid}
                     onPress={() =>
-                      navigation.navigate("ProductDetail", { uuid: item.uuid })
+                      navigation.navigate("ProductDetail", {
+                        uuid: item.uuid,
+                      })
                     }
                     // img,
                     // idCard={item.uuid}
@@ -244,17 +281,27 @@ useEffect(() => {
               textButton="Lihat Semua"
               msg="di bagian ini adalah toko-toko resmi yang sudah ada di pasaran dan bekerja sama dengan pihak aplikasi."
             />
-            {storeList.map((item, index) => {
+            {bestStore?.map((item, index) => {
               return (
                 <TouchableOpacity
                   style={styles.storeCard}
                   onPress={() =>
-                    navigation.navigate("Merchant", { storeName: item.name })
+                    navigation.navigate("Merchant", { uuidStore: item.uuid })
                   }
+                  key={item.uuid}
                 >
-                  <Image source={StoreIcon} />
-                  <Text style={styles.textStoreCard}>{item.name}</Text>
-                  <Image source={RightArrowRed} />
+                  <View style={{ width: "15%" }}>
+                    <Image source={StoreIcon} style={styles.storeIcon} />
+                  </View>
+                  <Text style={styles.textStoreCard}>
+                    {item.name ? item.name : "Store Name"}
+                  </Text>
+                  <View style={{ width: "15%" }}>
+                    <Image
+                      source={ArrowRedIcon}
+                      style={styles.redArrowStoreCard}
+                    />
+                  </View>
                 </TouchableOpacity>
               );
             })}
@@ -266,15 +313,29 @@ useEffect(() => {
             />
           </View>
         </View>
+        <TiketCenter />
         <View style={styles.body}>
-          <Image source={BannerVacation} style={styles.bannerMini} />
+          <Image source={BannerVacation} style={styles.bannerMini2} />
           <View style={{ marginVertical: 10 }}>
             <AssistantModal
-              title="Rekomendasi Produk"
+              title="Rekomendasi Toko"
               textButton="Lihat Semua"
               msg="kami akan merekomendasi kan produk-produk yang sesuai dengan minat dan selera kamu."
             />
           </View>
+        </View>
+        <View style={{ width: "100%", alignItems: "center", backgroundColor:colors.WHITE }}>
+          {storeList?.map((item, index) => {
+            return (
+              <CardMerchant
+                onPress={() => {
+                  navigation.navigate("Merchant", { uuidStore: item.uuid });
+                }}
+                merchantName={item.name}
+                kategori={item.slogan}
+              />
+            );
+          })}
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -287,6 +348,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.WHITE,
     width: "100%",
     paddingHorizontal: "5%",
+    paddingVertical: 10,
   },
   //   HEADER STYLE
   header: {
@@ -373,11 +435,20 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontFamily: "roboto",
     marginTop: 3,
-    marginHorizontal: 4,
+    paddingLeft: 4,
+    width: "70%",
   },
   bannerMini: {
-    marginVertical: 20,
+    marginVertical: 15,
     width: "100%",
+    height: 88,
+    resizeMode: "contain",
+    borderRadius: 10,
+  },
+  bannerMini2: {
+    marginVertical: 15,
+    width: "100%",
+    height: 120,
     borderRadius: 10,
   },
   storeCard: {
@@ -387,14 +458,22 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 10,
     elevation: 6,
-    marginVertical:10,
-    borderRadius:10,
+    marginVertical: 10,
+    borderRadius: 10,
   },
-  textStoreCard:{
-    width:'80%',
-    fontSize:15,
-    fontWeight:'bold',
-    marginLeft:'5%',
-  }
+  textStoreCard: {
+    width: "70%",
+    fontSize: 15,
+    fontWeight: "bold",
+    marginLeft: "5%",
+  },
+  storeIcon: {
+    width: 35,
+    height: 35,
+  },
+  redArrowStoreCard: {
+    width: 35,
+    height: 35,
+  },
 });
 export default Home;

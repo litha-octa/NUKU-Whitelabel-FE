@@ -8,6 +8,7 @@ import HeaderWithSearchbar from "./HeaderWithSearchbar";
 import StoreInfo from "./StoreInfo";
 import SimpleHeader from "./SimpleHeader";
 import CardMerchant from "./CardMerchant";
+import TiketCenter from './TiketCenter'
 
 export {
   Kategori,
@@ -20,4 +21,5 @@ export {
   StoreInfo,
   SimpleHeader,
   CardMerchant,
+  TiketCenter,
 };

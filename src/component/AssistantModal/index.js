@@ -8,7 +8,7 @@ const AssistantModal = (props) => {
   return (
     <View>
       <Modal
-        animationType="slide"
+        animationType="spring"
         transparent={true}
         visible={props.visible ? props.visible : modalVisible}
       >
@@ -17,7 +17,7 @@ const AssistantModal = (props) => {
             <View style={{ display: "flex", flexDirection: "row" }}>
               <Text style={styles.titleModal}>
                 {props.confirm
-                  ? "Apa Kamu Yakin Ingin Keluar ?"
+                  ? props.confirm
                   : "Info Untuk Kamu"}
               </Text>
               <Pressable
@@ -40,8 +40,8 @@ const AssistantModal = (props) => {
             />
             <Text style={styles.modalText}>{props.msg}</Text>
             <View style={props.confirm ? styles.btnGrup : { display: "none" }}>
-              <TouchableOpacity style={styles.btnOk} onPress={props.onExit}>
-                <Text style={styles.textBtnOk}>Keluar</Text>
+              <TouchableOpacity style={styles.btnOk} onPress={props.onOk}>
+                <Text style={styles.textBtnOk}>{props.okText? props.okText:'Keluar'}</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.btnNo} onPress={props.onCancel}>
                 <Text style={styles.textBtnNo}>Batal</Text>
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     height: 25,
   },
   TitleText: {
-    fontSize: 15,
+    fontSize: 14,
     fontFamily: "roboto",
     fontWeight: "bold",
     color: colors.RED_MAIN,
