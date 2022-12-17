@@ -17,6 +17,8 @@ import Account from './Account'
             import SettingsNotif from './Account/Settings/SettingsNotif'
             import SettingsBantuan from './Account/Settings/SettingsBantuan'
 
+            import Favorit from './Account/Favorit'
+
 import News from './News'
 import Order from './Order'
 import Qris from './Qris'
@@ -51,6 +53,9 @@ export {
   SettingsDebit,
   SettingsNotif,
   SettingsBantuan,
+
+  Favorit,
+
   News,
   Order,
   Qris,

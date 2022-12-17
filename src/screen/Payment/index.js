@@ -20,42 +20,76 @@ import {
   ListrikIcon,
   StatusMin,
   StatusPlus,
+  BPJSIcon,
+  IndihomeIcon,
+  PDAMIcon,
+  TelpIcon,
+  TokenIcon,
   Notif,
   ArrowWhiteIcon,
 } from "../../assets";
+import colors from '../../assets/colors'
 
-const Payment = () => {
+const Payment = ({navigation}) => {
     const infosaldo = '150.000'
     const nominal = '20.000'
     const date = '16-02-22'
+
+    const ItemPPOB = (props) =>{
+      return (
+        <TouchableOpacity onPress={props.onPress} style={styles.cardInWhiteHeader}>
+          <Image source={props.img} style={styles.menuInWhiteHeader} />
+          <Text style={styles.textWhiteSection}>{props.itemName}</Text>
+        </TouchableOpacity>
+      );
+    }
+
+    const RiwayatCard = (props) =>{
+      return (
+        <View style={styles.card}>
+          <Text style={styles.titleCard}>{props.title}</Text>
+          <View style={styles.cardSection}>
+            <Image source={props.status ===  'true' ? StatusPlus: StatusMin} style={styles.statusIcon} />
+            <Text style={styles.nominalInCard}>Rp. {props.nominal}</Text>
+            <Text style={styles.dateInCard}>{props.date}</Text>
+          </View>
+        </View>
+      );
+    }
+
     return (
       <View style={styles.body}>
         <ScrollView>
           <View style={styles.header}>
             <View style={styles.headerLine1}>
-              <Image
-                source={ArrowWhiteIcon}
-                style={{
-                  width: 20,
-                  height: 40,
-                  marginHorizontal: 10,
-                  transform: [{ rotate: "180deg" }],
-                }}
-              />
+              <TouchableOpacity
+              onPress={()=>{navigation.goBack()}}
+              >
+                <Image
+                  source={ArrowWhiteIcon}
+                  style={{
+                    width: 20,
+                    height: 40,
+                    marginHorizontal: 10,
+                    transform: [{ rotate: "180deg" }],
+                  }}
+                />
+              </TouchableOpacity>
               <Image
                 source={IconSaldo}
                 style={{
-                  width: 25,
-                  height: 25,
-                  marginTop: 5,
+                  width: 23,
+                  height: 23,
+                  marginTop: 10,
                   marginHorizontal: 10,
                 }}
               />
               <Image
                 source={Rp}
                 style={{
-                  width: 30,
-                  height: 25,
+                  width: 23,
+                  height: 23,
+                  resizeMode: "contain",
                   marginTop: 15,
                   marginHorizontal: 5,
                 }}
@@ -64,9 +98,8 @@ const Payment = () => {
               <Image
                 source={Notif}
                 style={{
-                  width: 50,
-                  height: 50,
-                  marginLeft: 10,
+                  width: 40,
+                  height: 40,
                 }}
               />
             </View>
@@ -85,47 +118,31 @@ const Payment = () => {
               </TouchableOpacity>
             </View>
             <View style={styles.whiteHeaderSection}>
-              <TouchableOpacity>
-                <Image source={PulsaIcon} style={styles.menuInWhiteHeader} />
-                <Text style={styles.textWhiteSection}> Pulsa</Text>
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <Image source={KuotaIcon} style={styles.menuInWhiteHeader} />
-                <Text style={styles.textWhiteSection}> Paket Data</Text>
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <Image source={ListrikIcon} style={styles.menuInWhiteHeader} />
-                <Text style={styles.textWhiteSection}> PLN</Text>
-              </TouchableOpacity>
+              <ItemPPOB img={PulsaIcon} itemName="Pulsa" />
+              <ItemPPOB img={KuotaIcon} itemName="Paket Data" />
+              <ItemPPOB img={ListrikIcon} itemName="PLN" />
+              <ItemPPOB img={BPJSIcon} itemName="BPJS" />
+              <ItemPPOB img={PDAMIcon} itemName="PDAM" />
+              <ItemPPOB img={IndihomeIcon} itemName="Telkomsel" />
+              <ItemPPOB img={TelpIcon} itemName="Telepon" />
+              <ItemPPOB img={TokenIcon} itemName="Token Listrik" />
             </View>
           </View>
 
           <View style={styles.mainContainer}>
             <Text style={styles.textInMainContainer}>Riwayat Kamu</Text>
-            <View style={styles.card}>
-              <Text style={styles.titleCard}>Top Up via Minimarket</Text>
-              <View style={styles.cardSection}>
-                <Image source={StatusPlus} style={styles.statusIcon} />
-                <Text style={styles.nominalInCard}>Rp. {nominal}</Text>
-                <Text style={styles.dateInCard}>{date}</Text>
-              </View>
-            </View>
-            <View style={styles.card}>
-              <Text style={styles.titleCard}>Top Up via Minimarket</Text>
-              <View style={styles.cardSection}>
-                <Image source={StatusPlus} style={styles.statusIcon} />
-                <Text style={styles.nominalInCard}>Rp. {nominal}</Text>
-                <Text style={styles.dateInCard}>{date}</Text>
-              </View>
-            </View>
-            <View style={styles.card}>
-              <Text style={styles.titleCard}>Top Up via Minimarket</Text>
-              <View style={styles.cardSection}>
-                <Image source={StatusPlus} style={styles.statusIcon} />
-                <Text style={styles.nominalInCard}>Rp. {nominal}</Text>
-                <Text style={styles.dateInCard}>{date}</Text>
-              </View>
-            </View>
+            <RiwayatCard
+              title="Top Up Via Indomaret"
+              status="true"
+              nominal="20000"
+              date="16-12-22"
+            />
+            <RiwayatCard
+              title="Top Up Via Indomaret"
+              status="false"
+              nominal="20000"
+              date="16-12-22"
+            />
           </View>
         </ScrollView>
       </View>
@@ -140,7 +157,7 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   header: {
-    backgroundColor: "#B70909",
+    backgroundColor: colors.RED_MAIN,
     height: 300,
     width: "100%",
     borderBottomStartRadius: 20,
@@ -156,7 +173,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: "bold",
     marginTop: 10,
-    width: 190,
+    width: "55%",
   },
   headerLine2: {
     display: "flex",
@@ -171,26 +188,31 @@ const styles = StyleSheet.create({
   whiteHeaderSection: {
     backgroundColor: "white",
     width: "90%",
-    height: 120,
+    height: "auto",
     borderRadius: 20,
-    marginTop: 40,
+    marginVertical: 40,
     marginHorizontal: "5%",
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-around",
+    flexWrap: "wrap",
     elevation: 8,
+    padding: 10,
+  },
+  cardInWhiteHeader: {
+    width: "25%",
+    alignItems: "center",
   },
   menuInWhiteHeader: {
-    width: 50,
-    height: 65,
+    width: 40,
+    height: 45,
     marginTop: 10,
   },
-  textWhiteSection:{
-    textAlign:'center',
-    color : 'black',
+  textWhiteSection: {
+    textAlign: "center",
+    color: "black",
   },
   mainContainer: {
-    marginTop: 70,
+    marginTop: "30%",
     width: "100%",
     paddingHorizontal: "5%",
   },
@@ -225,17 +247,18 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     padding: 10,
   },
-  nominalInCard:{
+  nominalInCard: {
     fontSize: 20,
-    fontWeight:'bold',
-    width: 245,
-    marginRight: 15,
+    fontWeight: "bold",
+    width: "65%",
   },
-  dateInCard:{
-    width:60,
+  dateInCard: {
+    width: "15%",
     fontSize: 12,
   },
-  statusIcon:{
-    marginHorizontal:10
-  }
+  statusIcon: {
+    width: 30,
+    height: 30,
+    marginHorizontal: 10,
+  },
 });

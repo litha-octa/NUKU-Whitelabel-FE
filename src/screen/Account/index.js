@@ -218,7 +218,7 @@ const MyActivity =(props)=>{
               title="Voucher"
             />
             <MyActivity
-              // onPress={() => ()}
+              onPress={() => navigation.navigate('Favorit')}
               img={FavoritIcon}
               title="Favorit"
             />

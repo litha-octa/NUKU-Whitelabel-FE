@@ -5,48 +5,45 @@ import colors from '../../../assets/colors'
 import { ArrowGreyIcon } from "../../../assets";
 
 const Settings = ({navigation}) =>{
+
+  const Card = (props)=>{
+    return (
+      <TouchableOpacity
+        style={s.card}
+        onPress={props.onPress}
+      >
+        <Text style={s.textCard}>{props.title}</Text>
+        <Image style={s.iconCard} source={ArrowGreyIcon} />
+      </TouchableOpacity>
+    );
+  }
     return (
       <View style={s.body}>
-        <SimpleHeader
-          title="pengaturan"
-          onBack={() => navigation.navigate("Account")}
-        />
-        <TouchableOpacity
-          style={s.card}
+        <SimpleHeader title="pengaturan" onBack={() => navigation.goBack()} />
+        <Card
           onPress={() => navigation.navigate("SettingsPrivasi")}
-        >
-          <Text style={s.textCard}>Privasi & Keamanan</Text>
-          <Image style={s.iconCard} source={ArrowGreyIcon} />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={s.card}
+          title="Privasi & Keamanan"
+        />
+        <Card
           onPress={() => navigation.navigate("SettingsDebit")}
-        >
-          <Text style={s.textCard}>Kartu Debit / Rekening Bank</Text>
-          <Image style={s.iconCard} source={ArrowGreyIcon} />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={s.card}
+          title="Kartu Debit / Rekening Bank"
+        />
+        <Card
           onPress={() => navigation.navigate("SettingsNotif")}
-        >
-          <Text style={s.textCard}>Notifikasi</Text>
-          <Image style={s.iconCard} source={ArrowGreyIcon} />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={s.card}
+          title="Notifikasi"
+        />
+        <Card
           onPress={() => navigation.navigate("SettingsBantuan")}
-        >
-          <Text style={s.textCard}>Pusat Bantuan</Text>
-          <Image style={s.iconCard} source={ArrowGreyIcon} />
-        </TouchableOpacity>
-        <TouchableOpacity style={s.card}>
-          <Text style={s.textCard}>Nilai Kami !</Text>
-          <Image style={s.iconCard} source={ArrowGreyIcon} />
-        </TouchableOpacity>
-        <TouchableOpacity style={s.card}>
-          <Text style={s.textCard}>Informasi Aplikasi</Text>
-          <Image style={s.iconCard} source={ArrowGreyIcon} />
-        </TouchableOpacity>
+          title="Pusat Bantuan"
+        />
+        <Card
+          title="Nilai Kami !"
+          // onPress={()=>{}}
+        />
+        <Card
+          title="Informasi Aplikasi"
+          // onPress={()=>{}}
+        />
       </View>
     );
 }

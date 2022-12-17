@@ -71,6 +71,11 @@ import BtnTopUp from "./paymentPage/BtnTopup.png";
 import PulsaIcon from './paymentPage/pulsa.png';
 import KuotaIcon from './paymentPage/kuota.png';
 import ListrikIcon from "./paymentPage/listrik.png";
+import BPJSIcon from './paymentPage/bpjs.png';
+import IndihomeIcon from './paymentPage/indihome.png';
+import PDAMIcon from "./paymentPage/pdam.png";
+import TelpIcon from "./paymentPage/telp.png";
+import TokenIcon from "./paymentPage/token.png";
 
 import StatusMin from './paymentPage/statusMin.png';
 import StatusPlus from './paymentPage/statusPlus.png';
@@ -287,6 +292,11 @@ export {
   PulsaIcon,
   KuotaIcon,
   ListrikIcon,
+  BPJSIcon,
+  IndihomeIcon,
+  PDAMIcon,
+  TelpIcon,
+  TokenIcon,
   StatusMin,
   StatusPlus,
 

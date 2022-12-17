@@ -29,6 +29,7 @@ import {
   OTP,
   Product,
   KategoriCenter,
+  Favorit,
 } from "../screen";
 
 import {
@@ -262,6 +263,11 @@ const Router = ({navigation}) => {
       <Stack.Screen
         name="Settings"
         component={Settings}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Favorit"
+        component={Favorit}
         options={{ headerShown: false }}
       />
       <Stack.Screen
