@@ -9,7 +9,7 @@ import {
   LEDIcon,
 } from "../../assets";
 import colors from "../../assets/colors";
-import { CardProduct } from "../../component";
+import { CardProduct, HeaderWithSearchbar } from "../../component";
 import axios from "axios";
 import { BASE_URL,url } from "../../service";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -77,13 +77,7 @@ const AllProduct = (x, y) => {
       "https://yt3.ggpht.com/a-/AAuE7mAjCgbd8Wq35r6JNQr0xXzJZsZThycm7ayRFw=s900-mo-c-c0xffffffff-rj-k-no";
     return (
       <SafeAreaView>
-        <View style={s.headers}>
-          <Image source={LeftArrowTail} style={s.iconHeader} />
-          <Image source={SearchIcon} style={s.iconHeader} />
-          <TextInput placeholder="Cari Produk" style={s.searchbar} />
-          <Image source={IconKeranjang} style={s.iconHeader} />
-          <Image source={IconShare} style={s.iconHeader} />
-        </View>
+        <HeaderWithSearchbar goBack={()=>navigation.goBack()}/>
         <ScrollView>
           <View style={s.body}>
             <View style={s.storeInfoContainer}>

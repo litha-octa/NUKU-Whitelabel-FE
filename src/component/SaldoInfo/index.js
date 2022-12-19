@@ -11,7 +11,7 @@ return (
         <Image source={IconSaldoRed} style={styles.iconSaldomerah} />
         <Text style={styles.saldoInfoText}>Saldo Kamu</Text>
       </View>
-      <Text style={styles.saldoInfoTextBold}>Rp{props.saldo}</Text>
+      <Text style={styles.saldoInfoTextBold}>{props.saldo}</Text>
     </View>
     <View style={styles.containerIcon}>
       <TouchableOpacity onPress={props.onTopUp}>
@@ -20,7 +20,7 @@ return (
       <TouchableOpacity onPress={props.onHistory}>
         <Image source={RiwayatIcon} style={styles.icon} />
       </TouchableOpacity>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={props.onLainnya}>
         <Image source={Lainnya} style={styles.icon} />
       </TouchableOpacity>
     </View>

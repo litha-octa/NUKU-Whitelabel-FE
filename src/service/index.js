@@ -8,8 +8,14 @@ export const url = {
     login: "/api/v1/user/login",
     logout: "/api/v1/auth/logout",
     register: "/api/v1/user/register",
+    update: "/api/v1/auth/update-profile",
   },
   product: "/api/v1/user/product",
   merchant: "/api/v1/user/merchant",
   cart: "/api/v1/user/cart",
+  balance: {
+    topup: "/api/v1/user/balance/topup",
+    log: "/api/v1/user/balance/logs",
+    total: "/api/v1/user/balance/total",
+  },
 };

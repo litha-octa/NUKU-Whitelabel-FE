@@ -31,9 +31,7 @@ const Account = ({navigation}) => {
    const isFocused = useIsFocused();
 
    const [modalVisible, setModalVisible] = useState(false)
-  const [username, setUsername] = useState('')
-  const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState("");
+  const [userData, setUserData] = useState('')
 const data={
   username : 'User2132',
   phone: '08333333333',
@@ -41,22 +39,39 @@ const data={
 }
 
 const [token, setToken] = useState();
+const [saldo, setSaldo] = useState();
+const [phone,setPhone] = useState()
 const getToken = async () => {
   try {
     const value = await AsyncStorage.getItem("token");
     if (value !== null) {
+      console.log('token in acc: ', value)
       setToken(value);
-       getUserData();
+       getUserData(value);
     }
   } catch (e) {
     console.log(e);
   }
 };
-useEffect(() => {
-  if (isFocused) {
-     getToken();
+
+const getItem = async (key) => {
+  try {
+    const value = await AsyncStorage.getItem(key);
+    if (value !== null) {
+      setSaldo(value)
+    }
+  } catch (e) {
+    console.log(e);
   }
-}, [navigation, isFocused]);
+};
+
+const storeItem = async (key, value) => {
+  try {
+    await AsyncStorage.setItem(key, value);
+  } catch (e) {
+    // saving error
+  }
+};
 
 const getUserData = (x) => {
   axios
@@ -66,17 +81,20 @@ const getUserData = (x) => {
       },
     })
     .then((res) =>{
-      setEmail(res.data.data.email);
+      console.log(res.data.data)
+      setUserData(res.data.data)
       setPhone(res.data.data.customer.phone);
-      setUsername(res.data.data.name);
+      storeItem('email' , res.data.data.email)
+      storeItem('phone', res.data.data.customer.phone)
+      storeItem('username', res.data.data.name)
   })
     .catch((err) => console.log(err));
 };
 
 const rmToken = async () => {
   try {
-   await AsyncStorage.removeItem("token");
-  } catch (e) {
+   await AsyncStorage.clear();
+  } catch (e) {  
     console.log(e)
   }
 
@@ -103,6 +121,13 @@ const logoutHandler = () => {
     })
     .catch((err) => console.log("error log out handler : ", err));
 };
+
+useEffect(() => {
+  if (isFocused) {
+     getToken()
+     getItem('saldo')
+  }
+}, [navigation, isFocused]);
 
 const MyActivity =(props)=>{
   return (
@@ -131,14 +156,18 @@ const MyActivity =(props)=>{
               }}
             >
               <Text style={s.username}>
-                {username ? username : data.username}
+                {userData?.name ? userData?.name : data.name}
               </Text>
               <Text style={s.phone}>{phone ? phone : data.phone}</Text>
-              <Text style={s.email}>{email ? email : data.email}</Text>
+              <Text style={s.email}>
+                {userData?.email ? userData?.email : data.email}
+              </Text>
             </View>
             <TouchableOpacity
               style={s.btnEdit}
-              onPress={() => navigation.navigate("EditProfile")}
+              onPress={() =>
+                navigation.navigate("EditProfile")
+              }
             >
               <Image source={IconEdit} style={s.btnEditIcon} />
             </TouchableOpacity>
@@ -155,8 +184,9 @@ const MyActivity =(props)=>{
               <Text style={s.openStoreText}>Gabung Buka Toko</Text>
             </TouchableOpacity>
             <SaldoInfo
-              saldo=" 2.000"
+              saldo={saldo}
               onTopUp={() => navigation.navigate("TopUpRoute")}
+              onLainnya={() => navigation.navigate("Payment")}
             />
             <View style={{ marginVertical: 10 }}>
               <AssistantModal
@@ -218,7 +248,7 @@ const MyActivity =(props)=>{
               title="Voucher"
             />
             <MyActivity
-              onPress={() => navigation.navigate('Favorit')}
+              onPress={() => navigation.navigate("Favorit")}
               img={FavoritIcon}
               title="Favorit"
             />
@@ -242,8 +272,6 @@ const MyActivity =(props)=>{
               img={FAQ}
               title="Ada Yang Mau Ditanyakan ?"
             />
-
-            
           </View>
           <TouchableOpacity
             style={s.logoutBtn}

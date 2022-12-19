@@ -45,6 +45,7 @@ const Home = ({navigation, route}) => {
   const [bestProduct, setBestProduct] = useState();
   const [storeList , setStoreList] = useState()
   const [bestStore, setBestStore] = useState()
+  const [saldo , setSaldo]= useState()
 
 
   const [token, setToken] = useState();
@@ -55,7 +56,8 @@ const Home = ({navigation, route}) => {
         setToken(value);
         console.log(value)
         ProductUnggulan(value)
-        getOfficialStore(value, 3);
+        getSaldo(value)
+        getOfficialStore(value, 3)
         getOfficialStore(value, 20)
 
     }} catch (e) {
@@ -63,18 +65,7 @@ const Home = ({navigation, route}) => {
     }
   };
 
-  
 
-  // const getUserData =(x)=>{
-  //   axios.get(`${BASE_URL}${url.auth.getProfile}`
-  //     , {
-  //     headers: {
-  //       'Authorization': `Bearer ${x}`,
-  //     },
-  //   })
-  //   .then((res)=>console.log('get user data : ',  res.data))
-  //   .catch((err)=>console.log('get user data error : ',err))
-  // }
 
   const ProductUnggulan =(x)=>{
     axios 
@@ -106,6 +97,32 @@ const Home = ({navigation, route}) => {
       }else{
         setStoreList(res.data.data);
       }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+const storeItem = async (key, value) => {
+  try {
+    await AsyncStorage.setItem(key, value);
+  } catch (e) {
+    // saving error
+  }
+};
+
+const getSaldo = (x) => {
+  axios
+    .get(`${BASE_URL}${url.balance.total}`, {
+      headers: {
+        Authorization: `Bearer ${x}`,
+      },
+    })
+    .then((res) => {
+      console.log(res.data.data)
+      storeItem("saldo", res.data.data.balance_total_label);
+      setSaldo(res.data.data)
+
     })
     .catch((err) => {
       console.log(err);
@@ -176,8 +193,9 @@ return (
       <ScrollView>
         <View style={styles.body}>
           <SaldoInfo
-            saldo="5.000"
+            saldo={saldo?.balance_total_label}
             onTopUp={() => navigation.navigate("TopUpRoute")}
+            onLainnya={() => navigation.navigate("Payment")}
           />
           <Image source={BannerAds} style={styles.banner} />
           <Assistant
@@ -233,7 +251,11 @@ return (
           <DigitalProduct img={PulsaIcon} title="Pulsa" />
           <DigitalProduct img={KuotaIcon} title="Paket Data" />
           <DigitalProduct img={ListrikIcon} title="PLN" />
-          <DigitalProduct arrow title="Lainnya" onPress={()=>navigation.navigate('Payment')}/>
+          <DigitalProduct
+            arrow
+            title="Lainnya"
+            onPress={() => navigation.navigate("Payment")}
+          />
         </View>
         <View style={styles.body}>
           <Image source={BannerMini} style={styles.bannerMini} />
@@ -324,7 +346,13 @@ return (
             />
           </View>
         </View>
-        <View style={{ width: "100%", alignItems: "center", backgroundColor:colors.WHITE }}>
+        <View
+          style={{
+            width: "100%",
+            alignItems: "center",
+            backgroundColor: colors.WHITE,
+          }}
+        >
           {storeList?.map((item, index) => {
             return (
               <CardMerchant
