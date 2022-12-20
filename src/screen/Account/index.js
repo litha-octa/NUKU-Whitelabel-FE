@@ -27,7 +27,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { url, BASE_URL } from "../../service";
 import axios from "axios";
 
-const Account = ({navigation}) => {
+const Account = ({navigation, route}) => {
    const isFocused = useIsFocused();
 
    const [modalVisible, setModalVisible] = useState(false)
@@ -38,27 +38,21 @@ const data={
   email:'user323@email.com'
 }
 
-const [token, setToken] = useState();
+const [token, setToken] = useState(null);
 const [saldo, setSaldo] = useState();
 const [phone,setPhone] = useState()
-const getToken = async () => {
-  try {
-    const value = await AsyncStorage.getItem("token");
-    if (value !== null) {
-      console.log('token in acc: ', value)
-      setToken(value);
-       getUserData(value);
-    }
-  } catch (e) {
-    console.log(e);
-  }
-};
+
 
 const getItem = async (key) => {
   try {
     const value = await AsyncStorage.getItem(key);
-    if (value !== null) {
+    if (value !== null && key === 'token') {
+       setToken(value)
+       getUserData(value)
+    }else if(value !== null && key === 'saldo') {
       setSaldo(value)
+    }else{
+      console.log(value)
     }
   } catch (e) {
     console.log(e);
@@ -73,21 +67,46 @@ const storeItem = async (key, value) => {
   }
 };
 
-const getUserData = (x) => {
-  axios
-    .get(`${BASE_URL}${url.auth.getProfile}`, {
-      headers: {
-        Authorization: `Bearer ${x}`,
-      },
-    })
-    .then((res) =>{
+const getUserData = (token) => {
+axios.get(`${BASE_URL}${url.auth.getProfile}`, {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+})
+.then((res)=>{
+  console.log(res.data.data)
+  getCurrentData(token, res.data.data.name)
+
+ 
+})
+.catch((err)=>{console.log(err)})
+};
+
+const getCurrentData = (token, x) => {
+  let formData = new FormData();
+  formData.append("_method", "PUT");
+  formData.append("name", x);
+
+  axios({
+    method: "POST",
+    url: `${BASE_URL}${url.auth.update}`,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "multipart/form-data",
+      "Access-Control-Allow-Origin": "*",
+    },
+    data: formData,
+  })
+    .then((res) => {
       console.log(res.data.data)
       setUserData(res.data.data)
-      setPhone(res.data.data.customer.phone);
-      storeItem('email' , res.data.data.email)
-      storeItem('phone', res.data.data.customer.phone)
-      storeItem('username', res.data.data.name)
-  })
+        setPhone(res.data.data.phone)
+        storeItem("email", res.data.data.email)
+        storeItem("phone", res.data.data.phone)
+      storeItem("username", res.data.data.name)
+      storeItem("dob", res.data.data.dob)
+      storeItem("jk", res.data.data.gender.toString())
+    })
     .catch((err) => console.log(err));
 };
 
@@ -124,7 +143,7 @@ const logoutHandler = () => {
 
 useEffect(() => {
   if (isFocused) {
-     getToken()
+     getItem('token')
      getItem('saldo')
   }
 }, [navigation, isFocused]);
@@ -223,7 +242,7 @@ const MyActivity =(props)=>{
           </View>
           <View>
             <MyActivity
-              onPress={() => navigation.navigate("EditProfile")}
+              onPress={() => navigation.navigate("EditProfile", {token: token})}
               img={ProfilSaya}
               title="Profil Anda"
             />
