@@ -95,6 +95,7 @@ import MainLogo from "./bottomTab/MainLogo.png";
 import DeleteIcon from './delet.png';
 import FilterOrder from './filterOrder.png'
 import FilterOrderRed from './redfilter.png'
+import FilterProduct from './filterProduct.png';
 
 //NEWS PAGE
 import IconHot from './hot.png';
@@ -315,6 +316,7 @@ export {
   DeleteIcon,
   FilterOrder,
   FilterOrderRed,
+  FilterProduct,
 
   //NEWS PAGE
   IconHot,

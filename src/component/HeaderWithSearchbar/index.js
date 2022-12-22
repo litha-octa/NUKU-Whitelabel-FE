@@ -24,7 +24,7 @@ const HeaderWithSearchbar = (props) =>{
         <TouchableOpacity onPress={props.toMyCart}>
           <Image source={IconKeranjang} style={s.iconHeader} />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={props.onFilter}>
           <Image source={FilterOrder} style={s.iconHeader} />
         </TouchableOpacity>
       </View>

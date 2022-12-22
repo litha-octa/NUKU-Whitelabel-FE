@@ -37,8 +37,13 @@ import PaymentMethod from './TopUp/PaymentMethod'
 import Product from './Product';
 import ProductDetail from "./Product/ProductDetail";
 
-
 import KategoriCenter from './KategoriCenter'
+
+// TRANSPORT DAN DELIVERY
+import { FiturBelanja, HomeBelanja, FiturKirim, FiturTransport } from './TransportDelivery'
+
+
+
 export {
   Payment,
   Splash,
@@ -73,4 +78,9 @@ export {
   Merchant,
   ProductDetail,
   KategoriCenter,
+
+  FiturBelanja,
+  FiturKirim,
+  FiturTransport,
+  HomeBelanja, 
 };

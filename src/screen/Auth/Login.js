@@ -109,7 +109,7 @@ if(!email || !password){
             <Text style={s.desc}>{byEmail ? "Dengan Email" : ""}</Text>
             <Text style={s.desc}>{desc}</Text>
             <Text style={s.inputTitle}>
-              {byEmail ? "Email" : "Nomor Handphone"}
+              {byEmail ? "Email atau No. Handphone" : "Nomor Handphone"}
             </Text>
             <View style={s.input}>
               <TextInput

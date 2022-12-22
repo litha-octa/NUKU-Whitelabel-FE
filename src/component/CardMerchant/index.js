@@ -18,7 +18,7 @@ const CardMerchant =(props)=>{
      const img =
        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3k6vUpG2bDfVksN11KjPowCOVs5L0kxHwNw&usqp=CAU";
     return (
-      <TouchableOpacity style={s.body} onPress={props.onPress}>
+      <TouchableOpacity style={s.body} onPress={props.onPress} >
         <View style={{ width: "35%" }}>
           <Image source={{ uri: img }} style={s.img} />
           <View style={s.rateContainer}>

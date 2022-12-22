@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { 
   View,
   Text,
@@ -29,11 +29,48 @@ import {
   ArrowWhiteIcon,
 } from "../../assets";
 import colors from '../../assets/colors'
+import axios from "axios";
+import {BASE_URL, url} from '../../service'
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Payment = ({navigation}) => {
     const infosaldo = '150.000'
     const nominal = '20.000'
     const date = '16-02-22'
+  const [saldo, setSaldo] = useState();
+
+
+const getItem = async (key) => {
+  try {
+    const value = await AsyncStorage.getItem(key);
+    if (value !== null) {
+      console.log(value);
+      getSaldo(value)
+    }
+  } catch (e) {
+    console.log("get Token error : ", e);
+  }
+};
+const getSaldo = (token) => {
+  axios
+    .get(`${BASE_URL}${url.balance.total}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((res) => {
+      console.log(res.data.data.balance_total_label.split(' '))
+      const saldoLabel = res.data.data.balance_total_label.split(" ")
+      setSaldo(saldoLabel[1]);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+useEffect(()=>{
+getItem('token')
+},[])
 
     const ItemPPOB = (props) =>{
       return (
@@ -94,7 +131,7 @@ const Payment = ({navigation}) => {
                   marginHorizontal: 5,
                 }}
               />
-              <Text style={styles.infosaldo}>{infosaldo}</Text>
+              <Text style={styles.infosaldo}>{saldo}</Text>
               <Image
                 source={Notif}
                 style={{

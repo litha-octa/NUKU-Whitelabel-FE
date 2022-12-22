@@ -211,16 +211,25 @@ return (
         </View>
 
         <View style={styles.pinkContainer}>
-          <TouchableOpacity style={styles.cardInPinkContainer}>
+          <TouchableOpacity
+            style={styles.cardInPinkContainer}
+            onPress={() => navigation.navigate("TransportRoute")}
+          >
             <Image source={AnterinIcon} style={styles.iconTransport} />
 
             <Text style={styles.textCardTransport}>NuKu Anterin</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.cardInPinkContainer}>
+          <TouchableOpacity
+            style={styles.cardInPinkContainer}
+            onPress={() => navigation.navigate("BelanjaRoute")}
+          >
             <Image source={BelanjainIcon} style={styles.iconTransport} />
             <Text style={styles.textCardTransport}>NuKu Belanja</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.cardInPinkContainer}>
+          <TouchableOpacity
+            style={styles.cardInPinkContainer}
+            onPress={() => navigation.navigate("KirimRoute")}
+          >
             <Image source={KiriminIcon} style={styles.iconTransport} />
             <Text style={styles.textCardTransport}>NuKu Kirimin</Text>
           </TouchableOpacity>

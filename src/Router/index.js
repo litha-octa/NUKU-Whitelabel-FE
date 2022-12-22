@@ -30,6 +30,11 @@ import {
   Product,
   KategoriCenter,
   Favorit,
+
+  FiturBelanja,
+  HomeBelanja,
+  FiturKirim,
+  FiturTransport,
 } from "../screen";
 
 import {
@@ -184,6 +189,47 @@ const TopUpRoute = ({navigation})=>{
   );
 }
 
+const BelanjaRoute =({navigation})=>{
+  return (
+    <Stack.Navigator initialRouteName="BelanjaRoute">
+      <Stack.Screen
+        name="FiturBelanja"
+        component={FiturBelanja}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="HomeBelanja"
+        component={HomeBelanja}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+};
+
+const KirimRoute =({navigation})=>{
+  return (
+    <Stack.Navigator initialRouteName="KirimRoute">
+      <Stack.Screen
+        name="FiturKirim"
+        component={FiturKirim}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+const TransportRoute = ({ navigation }) => {
+  return (
+    <Stack.Navigator initialRouteName="TransportRoute">
+      <Stack.Screen
+        name="FiturTransport"
+        component={FiturTransport}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+};
+
 const LoginRoute =({navigation})=>{
   return (
     <Stack.Navigator initialRouteName="LoginRoute">
@@ -298,6 +344,21 @@ const Router = ({navigation}) => {
       <Stack.Screen
         name="KategoriCenter"
         component={KategoriCenter}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="BelanjaRoute"
+        component={BelanjaRoute}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="KirimRoute"
+        component={KirimRoute}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="TransportRoute"
+        component={TransportRoute}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
