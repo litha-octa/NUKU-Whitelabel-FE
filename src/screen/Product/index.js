@@ -363,7 +363,7 @@ const listMerchant = (x) => {
             <TouchableOpacity
               style={s.btnFilter}
               onPress={() => {
-                ProductUnggulan();
+                ProductUnggulan(token);
                 refRBSheet.current.close();
                 setLowerPrice();
                 setHighestPrice();

@@ -3,6 +3,8 @@ import IconSaldo from './iconSaldo.png'
 import RushLine from "./rushLine.png"
 import ChatMerchant from './chatMerchant.png'
 
+import InfoIcon from './InfoIcon.png';
+
 // import LeftArrow from './leftArrow.png'
 import Rp from './Rp.png'
 import Notif from './Notif.png'
@@ -230,6 +232,7 @@ import DeleteBtnRed from './deleteBtnRed.png'
 
 
 export {
+  InfoIcon,
   ChatMerchant,
   IconSaldo,
   RushLine,

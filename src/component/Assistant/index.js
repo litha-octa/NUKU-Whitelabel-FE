@@ -1,13 +1,13 @@
 import React from "react";
 import {View, Text, Image, StyleSheet} from 'react-native'
-import { AssistantModalImg } from "../../assets";
+import { AssistantModalImg,InfoIcon } from "../../assets";
 import colors from "../../assets/colors";
 
 
 const Assistant = (props) =>{
     return (
       <View style={styles.assistantCon}>
-        <Image source={AssistantModalImg} style={styles.assistIcon} />
+        <Image source={props.info? InfoIcon : AssistantModalImg} style={styles.assistIcon} />
         <Text style={styles.assistText}>
             {props.msg}
         </Text>
@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
     width: "72%",
     fontFamily: "roboto",
     fontSize: 12,
+    textAlignVertical:'center',
   },
 });
 export default Assistant
