@@ -30,7 +30,7 @@ import {
   Product,
   KategoriCenter,
   Favorit,
-
+  Address,
   FiturBelanja,
   HomeBelanja,
   FiturKirim,
@@ -276,6 +276,12 @@ const Router = ({navigation}) => {
         component={MainApp}
         options={{ headerShown: false }}
       />
+      <Stack.Screen
+        name="Address"
+        component={Address}
+        options={{ headerShown: false }}
+      />
+
       <Stack.Screen
         name="Payment"
         component={Payment}

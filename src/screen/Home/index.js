@@ -175,12 +175,14 @@ return (
   return (
     <SafeAreaView style={{ marginBottom: 40 }}>
       <View style={styles.header}>
-        <Image source={LocationIcon} style={styles.headerIcon} />
-        <Text style={styles.headerText}>Dikirim ke {locationName}</Text>
-        <Image
-          source={DownArrow}
-          style={{ width: 20, height: 20, resizeMode: "contain" }}
-        />
+        <TouchableOpacity onPress={()=>navigation.navigate('Address')} style={{width:'60%', display:'flex',flexDirection:'row'}}>
+          <Image source={LocationIcon} style={styles.headerIcon} />
+          <Text style={styles.headerText}>Dikirim ke {locationName}</Text>
+          <Image
+            source={DownArrow}
+            style={{ width: 20, height: 20, resizeMode: "contain" }}
+          />
+        </TouchableOpacity>
         <View style={styles.headerRightIcon}>
           <TouchableOpacity onPress={() => navigation.navigate("MyCart")}>
             <Image source={IconKeranjang} style={styles.headerIcon2} />
@@ -408,7 +410,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     color: colors.GREY,
-    width: "50%",
+    width: "70%",
     fontSize: 12,
     fontFamily: "roboto",
   },

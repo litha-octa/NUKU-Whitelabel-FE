@@ -2,8 +2,10 @@ import IconSaldo from './iconSaldo.png'
 
 import RushLine from "./rushLine.png"
 import ChatMerchant from './chatMerchant.png'
-
+import CloseIcon from './closeIcon.png';
 import InfoIcon from './InfoIcon.png';
+import RibonSaveIcon from './RibonSaveIcon.png'
+import MapPinIcon from './MapPinIcon.png';
 
 // import LeftArrow from './leftArrow.png'
 import Rp from './Rp.png'
@@ -232,6 +234,9 @@ import DeleteBtnRed from './deleteBtnRed.png'
 
 
 export {
+  MapPinIcon,
+  RibonSaveIcon,
+  CloseIcon,
   InfoIcon,
   ChatMerchant,
   IconSaldo,

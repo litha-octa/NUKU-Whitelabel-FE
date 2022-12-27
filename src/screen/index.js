@@ -4,6 +4,8 @@ import Merchant from './Merchant'
 
 import MyCart from './MyCart'
 
+import Address from './Address'
+
 //MAINApp
 import Home from './Home'
 import Account from './Account'
@@ -83,4 +85,5 @@ export {
   FiturKirim,
   FiturTransport,
   HomeBelanja, 
+  Address,
 };
