@@ -6,6 +6,7 @@ import CloseIcon from './closeIcon.png';
 import InfoIcon from './InfoIcon.png';
 import RibonSaveIcon from './RibonSaveIcon.png'
 import MapPinIcon from './MapPinIcon.png';
+import AddAddressIcon from './addAddress.png';
 
 // import LeftArrow from './leftArrow.png'
 import Rp from './Rp.png'
@@ -234,6 +235,7 @@ import DeleteBtnRed from './deleteBtnRed.png'
 
 
 export {
+  AddAddressIcon,
   MapPinIcon,
   RibonSaveIcon,
   CloseIcon,

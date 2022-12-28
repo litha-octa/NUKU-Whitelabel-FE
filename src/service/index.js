@@ -18,4 +18,5 @@ export const url = {
     log: "/api/v1/user/balance/logs",
     total: "/api/v1/user/balance/total",
   },
+  address: "/api/v1/user/address",
 };
