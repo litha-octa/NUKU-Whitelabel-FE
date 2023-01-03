@@ -42,7 +42,7 @@ const [token, setToken] = useState(null);
 const [saldo, setSaldo] = useState();
 const [phone,setPhone] = useState()
 
-
+ 
 const getItem = async (key) => {
   try {
     const value = await AsyncStorage.getItem(key);

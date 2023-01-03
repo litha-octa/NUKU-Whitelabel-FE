@@ -86,13 +86,29 @@ const CardAddress = (props) =>{
             fontSize: 12,
             fontWeight: "bold",
             color: colors.BLACK,
-            marginRight:10,
+            marginRight: 10,
           }}
         >
           {props.label}
         </Text>
-        <View style={props.main===true?{width:'25%', backgroundColor:colors.PALE_GREY, paddingVertical : 5,borderRadius:10,paddingHorizontal:10}:{display:'none'}}>
-          <Text style={{fontSize:12, color:colors.GREY,textAlign:'center'}}>Utama</Text>
+        <View
+          style={
+            props.main === true
+              ? {
+                  width: "25%",
+                  backgroundColor: colors.PALE_GREY,
+                  paddingVertical: 5,
+                  borderRadius: 10,
+                  paddingHorizontal: 10,
+                }
+              : { display: "none" }
+          }
+        >
+          <Text
+            style={{ fontSize: 12, color: colors.GREY, textAlign: "center" }}
+          >
+            Utama
+          </Text>
         </View>
       </View>
       <Text
@@ -118,11 +134,15 @@ const CardAddress = (props) =>{
 
       <Text>{props.address}</Text>
       <View style={s.row}>
-        <TouchableOpacity style={[s.btnCard, { width: "80%" }]}>
+        <TouchableOpacity
+          style={[s.btnCard, { width: "80%" }]}
+          onPress={props.btnEdit}
+        >
           <Text style={s.textBtnCard}>Edit Alamat</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[s.btnCard, { width: "12%" }]}
-        onPress={props.btnDelete}
+        <TouchableOpacity
+          style={[s.btnCard, { width: "12%" }]}
+          onPress={props.btnDelete}
         >
           <Image
             source={DeleteIcon}
@@ -138,46 +158,64 @@ const CardAddress = (props) =>{
     return (
       <View style={s.body}>
         <ScrollView>
-          <SimpleHeader title="Alamat Saya" onBack={()=>navigation.goBack()}/>
-          {listAdd !== null ? listAdd?.map((item, index) => {
-            return (
-              <View>
-                <CardAddress
-                  btnDelete={()=>setModalVisible(!modalVisible)}
-                  key={index}
-                  main={item.is_main_address === 1 ? true : false}
-                  label={item.label}
-                  name={item.recipient_name}
-                  phone={item.recipient_phone}
-                  address={`${item.address} ${item.district_name}, ${item.regency_name}, ${item.province_name} ${item.postal_code}`}
-                />
-                <AssistantModal
-                  sadFace
-                  okText='Hapus'
-                  confirm="Apa Kamu Yakin Ingin Menghapus Alamat ini ?"
-                  visible={modalVisible}
-                  onCancel={() => setModalVisible(!modalVisible)}
-                  onOk={() => {
-                    deletAdd(item.uuid)
-                  }}
-                />
-              </View>
-            );
-          }) : <Text style={{
-            width:'100%',
-            textAlign:'center',
-            fontFamily:'roboto',
-            fontWeight:'bold',
-            fontSize:20,
-            marginVertical:10,
-            color:colors.RED_MAIN
-          }}>Belum Ada Alamat yang Ditambahkan</Text>}
-          <TouchableOpacity style={s.btnAddAddress}>
+          <SimpleHeader
+            title="Alamat Saya"
+            onBack={() => navigation.goBack()}
+          />
+          {listAdd !== null ? (
+            listAdd?.map((item, index) => {
+              return (
+                <View>
+                  <CardAddress
+                    btnEdit={() =>
+                      navigation.navigate("NewAddress", {
+                        uuidAddress: item.uuid,
+                      })
+                    }
+                    btnDelete={() => setModalVisible(!modalVisible)}
+                    key={index}
+                    main={item.is_main_address === 1 ? true : false}
+                    label={item.label}
+                    name={item.recipient_name}
+                    phone={item.recipient_phone}
+                    address={`${item.address} ${item.district_name}, ${item.regency_name}, ${item.province_name} ${item.postal_code}`}
+                  />
+                  <AssistantModal
+                    sadFace
+                    okText="Hapus"
+                    confirm="Apa Kamu Yakin Ingin Menghapus Alamat ini ?"
+                    visible={modalVisible}
+                    onCancel={() => setModalVisible(!modalVisible)}
+                    onOk={() => {
+                      deletAdd(item.uuid);
+                    }}
+                  />
+                </View>
+              );
+            })
+          ) : (
+            <Text
+              style={{
+                width: "100%",
+                textAlign: "center",
+                fontFamily: "roboto",
+                fontWeight: "bold",
+                fontSize: 20,
+                marginVertical: 10,
+                color: colors.RED_MAIN,
+              }}
+            >
+              Belum Ada Alamat yang Ditambahkan
+            </Text>
+          )}
+          <TouchableOpacity
+            style={s.btnAddAddress}
+            onPress={() => navigation.navigate("NewAddress", {uuidAddress:null})}
+          >
             <Text style={s.btnAddAddressText}>Tambah Alamat Baru</Text>
             <Image source={AddAddressIcon} style={s.btnAddAddressIcon} />
           </TouchableOpacity>
         </ScrollView>
-        
       </View>
     );
 }
@@ -228,6 +266,7 @@ const s = StyleSheet.create({
     width: "96%",
     marginHorizontal: "2%",
     padding:10,
+    marginVertical:10,
   },
   btnCard: {
     backgroundColor: colors.WHITE,

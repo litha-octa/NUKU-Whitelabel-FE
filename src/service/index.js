@@ -19,4 +19,7 @@ export const url = {
     total: "/api/v1/user/balance/total",
   },
   address: "/api/v1/user/address",
+  province: "/api/v1/region/province",
+  regency: "/api/v1/region/regency",
+  district: "/api/v1/region/district",
 };

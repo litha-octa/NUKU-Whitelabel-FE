@@ -35,6 +35,7 @@ import {
   HomeBelanja,
   FiturKirim,
   FiturTransport,
+  NewAddress,
 } from "../screen";
 
 import {
@@ -281,7 +282,11 @@ const Router = ({navigation}) => {
         component={Address}
         options={{ headerShown: false }}
       />
-
+      <Stack.Screen
+        name="NewAddress"
+        component={NewAddress}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen
         name="Payment"
         component={Payment}
